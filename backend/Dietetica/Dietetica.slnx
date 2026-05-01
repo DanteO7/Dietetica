@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../UnitTestDietetica/UnitTestDietetica.csproj" Id="959fad55-69bd-4908-92b5-fe2b9ef3c9b0" />
+  <Project Path="Dietetica.csproj" />
+</Solution>

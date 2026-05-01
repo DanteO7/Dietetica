@@ -1,0 +1,41 @@
+@import "tailwindcss";
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html {
+  background: #ede9ee;
+}
+.tab-active {
+  background-color: #ede9ee;
+  color: #374151;
+  font-weight: 600;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.tab-active::before,
+.tab-active::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  width: 16px;
+  height: 16px;
+  background-color: #374151;
+}
+
+.tab-active::before {
+  left: -16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 6px 6px 0 6px #ede9ee;
+}
+
+.tab-active::after {
+  right: -16px;
+  border-bottom-left-radius: 16px;
+  box-shadow: -6px 6px 0 6px #ede9ee;
+}

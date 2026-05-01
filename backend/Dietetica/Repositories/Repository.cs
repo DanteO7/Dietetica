@@ -1,0 +1,81 @@
+﻿using Dietetica.Config;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace backend_proyecto.Repositories
+{
+    public interface IRepository<T> where T : class
+    {
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includes);
+        Task<T?> GetOneAsync(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includes);
+        Task CreateOneAsync(T entity);
+        Task UpdateOneAsync(T entity);
+        Task DeleteOneAsync(T entity);
+        Task SaveAsync();
+        IQueryable<T> Query();
+    }
+    public class Repository<T> : IRepository<T> where T : class
+    {
+        private readonly ApplicationDbContext _db;
+        internal DbSet<T> dbSet { get; set; } = null!;
+        public Repository(ApplicationDbContext db)
+        {
+            _db = db;
+            dbSet = _db.Set<T>();
+        }
+        public async Task CreateOneAsync(T entity)
+        {
+            await dbSet.AddAsync(entity);
+            await SaveAsync();
+        }
+
+        public async Task DeleteOneAsync(T entity)
+        {
+            dbSet.Remove(entity);
+            await SaveAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            foreach (var include in includes)
+                query = query.Include(include);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var include in includes)
+                query = query.Include(include);
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateOneAsync(T entity)
+        {
+            dbSet.Update(entity);
+            await SaveAsync();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
+        }
+
+        public IQueryable<T> Query()
+        {
+            return dbSet.AsQueryable();
+        }
+    }
+}

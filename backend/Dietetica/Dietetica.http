@@ -1,0 +1,6 @@
+@Dietetica_HostAddress = http://localhost:5050
+
+GET {{Dietetica_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
