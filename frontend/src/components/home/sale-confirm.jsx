@@ -35,7 +35,7 @@ export default function SaleConfirm({ close, data, setSale }) {
         <h2 className="text-xl font-semibold">Confirmar Venta</h2>
 
         <X className="cursor-pointer hover:text-gray-500" onClick={close} />
-      </div>{" "}
+      </div>
       {backendError && <p className="text-red-600 mb-2">{backendError}</p>}
       {successMessage && (
         <p className="text-green-600 mb-2">{successMessage}</p>
@@ -48,14 +48,11 @@ export default function SaleConfirm({ close, data, setSale }) {
           Cancelar
         </button>
         <button
-          onClick={() => {
-            console.log(data);
-
-            mutation.mutate(data);
-          }}
-          className="cursor-pointer px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+          onClick={() => mutation.mutate(data)}
+          disabled={mutation.isPending}
+          className="cursor-pointer px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Aceptar
+          {mutation.isPending ? "Procesando..." : "Aceptar"}
         </button>
       </div>
     </Modal>
