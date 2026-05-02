@@ -51,7 +51,7 @@ export default function SignIn() {
           className="flex max-w flex-col gap-3.5"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h2 className="text-center text-2xl font-bold">Turno Fácil</h2>
+          <h2 className="text-center text-2xl font-bold">Sistema de Ventas</h2>
           <p className="text-center text-gray-700 text-[16px]">
             Iniciar sesión
           </p>
