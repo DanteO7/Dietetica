@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // DbContext configuration
-var connection = "Host=aws-1-us-west-2.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.xvseuqegympezdufdnbb;Password=6oo6ROcvJTfycQDn;SSL Mode=Require;Trust Server Certificate=true;";
+var connection = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connection));
@@ -85,7 +85,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "https://dieteticavc.onrender.com")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
