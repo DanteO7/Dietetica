@@ -50,6 +50,7 @@ export default function SaleConfirm({ close, data, setSale }) {
         <button
           onClick={() => mutation.mutate(data)}
           disabled={mutation.isPending}
+          disabled={mutation.isSuccess}
           className="cursor-pointer px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {mutation.isPending ? "Procesando..." : "Aceptar"}
