@@ -1,12 +1,102 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|c:\\users\\dante\\onedrive\\escritorio\\trabajos\\dietetica\\backend\\dietetica\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|c:\\users\\dante\\onedrive\\escritorio\\trabajos\\dietetica\\backend\\dietetica\\migrations\\20260502233718_dataprotectionkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|solutionrelative:migrations\\20260502233718_dataprotectionkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|c:\\users\\dante\\onedrive\\escritorio\\trabajos\\dietetica\\backend\\dietetica\\config\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|solutionrelative:config\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|c:\\users\\dante\\onedrive\\escritorio\\trabajos\\dietetica\\backend\\dietetica\\utils\\middleware\\csrfprotectionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|solutionrelative:utils\\middleware\\csrfprotectionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|c:\\users\\dante\\onedrive\\escritorio\\trabajos\\dietetica\\backend\\dietetica\\services\\storageservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{858B0685-34A6-7A96-083E-B84281E29BED}|Dietetica.csproj|solutionrelative:services\\storageservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20260502233718_DataProtectionKeys.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Migrations\\20260502233718_DataProtectionKeys.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260502233718_DataProtectionKeys.cs",
+              "ToolTip": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Migrations\\20260502233718_DataProtectionKeys.cs",
+              "RelativeToolTip": "Migrations\\20260502233718_DataProtectionKeys.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-02T23:37:18.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Config\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Config\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Config\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Config\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-02T23:34:11.439Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CsrfProtectionMiddleware.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Utils\\Middleware\\CsrfProtectionMiddleware.cs",
+              "RelativeDocumentMoniker": "Utils\\Middleware\\CsrfProtectionMiddleware.cs",
+              "ToolTip": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Utils\\Middleware\\CsrfProtectionMiddleware.cs",
+              "RelativeToolTip": "Utils\\Middleware\\CsrfProtectionMiddleware.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAwwC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-02T21:02:01.706Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StorageServices.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Services\\StorageServices.cs",
+              "RelativeDocumentMoniker": "Services\\StorageServices.cs",
+              "ToolTip": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Services\\StorageServices.cs",
+              "RelativeToolTip": "Services\\StorageServices.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwBIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-01T23:56:43.997Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\dante\\OneDrive\\Escritorio\\Trabajos\\Dietetica\\backend\\Dietetica\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAABsAAACHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-01T23:50:40.35Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -5,6 +5,7 @@ using Dietetica.Models;
 using Dietetica.Repositories;
 using Dietetica.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -24,7 +25,7 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // DbContext configuration
-var connection = Environment.GetEnvironmentVariable("DATABASE_URL");
+var connection = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("DefaultConnection"); ;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connection));
@@ -91,6 +92,8 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
+builder.Services.AddDataProtection().PersistKeysToDbContext<ApplicationDbContext>();
 
 // APP
 var app = builder.Build();
