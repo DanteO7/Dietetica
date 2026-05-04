@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
+import CommerceDataForm from "./commerce-data-form";
 
 export default function Header() {
   const [location] = useLocation();
+  const [openDateModal, setOpenDateModal] = useState(false);
 
   const linkClass = (path) =>
     `px-4 py-2 transition-all duration-200 pb-[16px] ${
@@ -9,8 +12,14 @@ export default function Header() {
     }`;
 
   return (
-    <header className="sticky top-0 bg-gray-700 h-14 z-40 flex justify-center text-[#efefef]">
-      <div className="w-full">
+    <header className="sticky top-0 bg-gray-700 h-14 z-40 flex justify-center text-[#efefef] w-full">
+      <div className="w-full flex items-center justify-center relative">
+        <button
+          className="absolute left-15 cursor-pointer"
+          onClick={() => setOpenDateModal(true)}
+        >
+          Cambiar Información
+        </button>
         <div className="flex items-end justify-center gap-6 h-full">
           <Link href="/" className={linkClass("/")}>
             Inicio
@@ -24,8 +33,10 @@ export default function Header() {
             Ventas
           </Link>
         </div>
-        <div className="w-full px-6 bg-[#ede9ee] h-3"></div>
       </div>
+      {openDateModal && (
+        <CommerceDataForm close={() => setOpenDateModal(false)} />
+      )}
     </header>
   );
 }

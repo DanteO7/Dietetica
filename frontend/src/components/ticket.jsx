@@ -1,11 +1,12 @@
 import { forwardRef } from "react";
+import { useDataStore } from "../store/data-store";
 
 const Ticket = forwardRef(({ sale }, ref) => {
-  console.log(sale);
+  const { commerceName } = useDataStore();
 
   return (
     <div ref={ref} className="w-[50mm] font-mono text-[10px] p-[2mm] m-auto">
-      <h2 className="text-center text-[12px] font-bold">MI NEGOCIO</h2>
+      <h2 className="text-center text-[12px] font-bold">{commerceName}</h2>
 
       <p className="text-center">
         Ticket #{sale?.ticketNumber.toString().padStart(6, "0")}

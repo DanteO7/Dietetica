@@ -151,9 +151,9 @@ export default function Home() {
       <div style={{ display: "none" }}>
         {sale && <Ticket ref={ticketRef} sale={sale} />}
       </div>
-      <div className="flex w-full justify-between">
-        <div className="w-[55%] h-[695px] flex flex-col">
-          <div className="flex justify-between items-center shrink-0">
+      <div className="flex w-full justify-between h-full">
+        <div className="w-[55%]  flex flex-col">
+          <div className="flex justify-between items-center  shrink-0">
             <h2 className="font-semibold text-3xl">Productos de la venta:</h2>
             <button
               onClick={() => setOpenAddModal(true)}

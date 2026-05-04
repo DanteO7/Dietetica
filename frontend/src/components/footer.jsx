@@ -3,7 +3,7 @@ import { Circle } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#ede9ee] pb-5">
+    <footer className="bg-[#ede9ee] py-5">
       <div className="flex justify-center items-center gap-1.5">
         <p>v1.0.0</p>
         <span className="text-[20px]">•</span>

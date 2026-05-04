@@ -39,7 +39,6 @@ export default function SignIn() {
 
   const onSubmit = (credentials) => {
     setBackendError(null);
-    console.log("submit", credentials);
     mutation.mutate(credentials);
   };
 

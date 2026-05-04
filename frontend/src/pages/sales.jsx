@@ -13,6 +13,13 @@ export default function Sales() {
     useInfiniteSales();
 
   const sales = data?.pages.flatMap((page) => page.items) ?? [];
+  const today = new Date().toLocaleDateString("en-CA");
+
+  useEffect(() => {
+    if (!date) {
+      setFilters({ date: today });
+    }
+  }, []);
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
@@ -29,14 +36,13 @@ export default function Sales() {
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
   return (
     <MainLayout>
-      <div className="flex justify-between w-[50%] items-center text-xl">
+      <div className="flex justify-between w-[60%] items-center text-xl">
         <input
           type="date"
           className="border rounded-xl px-2 py-2"
-          value={date || ""}
+          value={date || today}
           onChange={(e) =>
             setFilters({
               date: e.target.value || undefined,
@@ -63,7 +69,7 @@ export default function Sales() {
           </select>
         </div>
       </div>
-      <div className="w-[55%] overflow-y-auto h-147 px-2 overflow-x-hidden scrollbar-hide">
+      <div className="w-[65%] overflow-y-auto px-2 overflow-x-hidden scrollbar-hide">
         {sales.map((s) => (
           <SaleCard
             key={s.id}
@@ -72,14 +78,14 @@ export default function Sales() {
             saleSelected={saleSelected}
           />
         ))}
-      </div>
-      <div ref={sentinelRef} className="h-4" />
+        <div ref={sentinelRef} className="h-4" />
 
-      {isFetchingNextPage && (
-        <p className="text-center py-4 text-sm text-gray-400">
-          Cargando más...
-        </p>
-      )}
+        {isFetchingNextPage && (
+          <p className="text-center py-4 text-sm text-gray-400">
+            Cargando más...
+          </p>
+        )}
+      </div>
     </MainLayout>
   );
 }
