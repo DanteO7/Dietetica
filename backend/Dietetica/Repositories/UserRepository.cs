@@ -22,7 +22,7 @@ namespace Dietetica.Repositories
         public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _db.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
+                .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
         }
     }
 }
