@@ -199,8 +199,8 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="w-[40%] flex flex-col justify-between overflow-y-auto">
-          <div className="flex flex-col gap-3 text-[19px]">
+        <div className="w-[40%] flex flex-col justify-between">
+          <div className="flex flex-col gap-3 text-[19px] overflow-y-auto">
             <img
               src={productSelected?.imageUrl || "image-placeholder.png"}
               className="w-full m-auto object-cover rounded mb-1 aspect-[1054/653]"

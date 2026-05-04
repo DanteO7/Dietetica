@@ -9,3 +9,6 @@ export const createSale = (data) => request("post", "/sales", data);
 
 export const changeSaleMethod = (id, methodId) =>
   request("patch", `/sales/${id}/${methodId}`);
+
+export const getSalesCount = (data) =>
+  request("get", "/sales/count", null, data);

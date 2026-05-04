@@ -34,7 +34,5 @@ export const request = async (
     headers,
   });
 
-  console.log(res.data);
-
   return res.data;
 };

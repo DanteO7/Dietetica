@@ -20,7 +20,7 @@ export default function SaleProductItem({
       </span>
       <div
         onClick={() => selectProduct()}
-        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center mb-3 w-full py-5 border rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-150 ${productSelected.id === product.id ? "bg-gray-200" : ""}`}
+        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center mb-3 w-full py-5 border rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-150 ${productSelected.id === product.id ? "bg-[#e3e0e5]" : ""}`}
       >
         <h4 className="truncate">{product.name}</h4>
 

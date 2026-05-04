@@ -3,6 +3,8 @@ import { useInfiniteSales } from "../hooks/useInfinitesSales";
 import MainLayout from "../layouts/main-layout";
 import SaleCard from "../components/sales/sale-card";
 import { useSaleFilterStore } from "../store/sale-filter-store";
+import { useQuery } from "@tanstack/react-query";
+import { getSalesCount } from "../services/sale";
 
 export default function Sales() {
   const sentinelRef = useRef(null);
@@ -36,20 +38,35 @@ export default function Sales() {
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const { data: count, isLoading } = useQuery({
+    queryKey: ["count-sales", date, paymentMethodId],
+    queryFn: () =>
+      getSalesCount({
+        date,
+        paymentMethodId,
+      }),
+  });
+  useEffect(() => {
+    if (date === undefined) {
+      setFilters({ date: today });
+    }
+  }, []);
+
   return (
     <MainLayout>
       <div className="flex justify-between w-[60%] items-center text-xl">
         <input
           type="date"
           className="border rounded-xl px-2 py-2"
-          value={date || today}
+          value={date || ""}
           onChange={(e) =>
             setFilters({
               date: e.target.value || undefined,
             })
           }
         />
-        <p>Ventas en este dia: {sales.length}</p>
+        <p>Ventas en este dia: {isLoading ? "..." : count}</p>
         <div className=" flex items-center gap-5">
           <label className="text-black">Método de pago:</label>
 
@@ -69,7 +86,7 @@ export default function Sales() {
           </select>
         </div>
       </div>
-      <div className="w-[65%] overflow-y-auto px-2 overflow-x-hidden scrollbar-hide">
+      <div className="w-[65%] overflow-y-auto px-1 pt-1 overflow-x-hidden scrollbar-hide">
         {sales.map((s) => (
           <SaleCard
             key={s.id}

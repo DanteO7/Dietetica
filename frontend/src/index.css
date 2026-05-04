@@ -31,11 +31,31 @@ html {
 .tab-active::before {
   left: -16px;
   border-bottom-right-radius: 16px;
-  box-shadow: 6px 6px 0 6px #ede9ee;
+  box-shadow: 6px 6px 0 6px #e3e1e4;
 }
 
 .tab-active::after {
   right: -16px;
   border-bottom-left-radius: 16px;
   box-shadow: -6px 6px 0 6px #ede9ee;
+}
+/* Scrollbar completa */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Fondo */
+::-webkit-scrollbar-track {
+  background: #e5e5e5;
+}
+
+/* Barra */
+::-webkit-scrollbar-thumb {
+  background: #777;
+  border-radius: 8px;
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }

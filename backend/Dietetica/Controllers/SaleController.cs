@@ -113,5 +113,11 @@ namespace Dietetica.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetCount(DateTime? date, int? paymentMethodId)
+        {
+            var count = await _saleServices.GetCount(date, paymentMethodId);
+            return Ok(count);
+        }
     }
 }

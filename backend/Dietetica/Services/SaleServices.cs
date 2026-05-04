@@ -171,5 +171,22 @@ namespace Dietetica.Services
             await _saleRepository.UpdateOneAsync(sale);
             return _mapper.Map<ResponseSaleDTO>(sale);
         }
+        public async Task<int> GetCount(DateTime? date, int? paymentMethodId)
+        {
+            IQueryable<Sale> query = _saleRepository.Query();
+
+            if (date.HasValue)
+            {
+                var start = DateTime.SpecifyKind(date.Value.Date, DateTimeKind.Utc);
+                var end = start.AddDays(1);
+
+                query = query.Where(s => s.CreatedAt >= start && s.CreatedAt < end);
+            }
+
+            if (paymentMethodId.HasValue)
+                query = query.Where(s => s.PaymentMethodId == paymentMethodId);
+
+            return await query.CountAsync();
+        }
     }
 }
