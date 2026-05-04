@@ -71,6 +71,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.Cookie.MaxAge = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
 
         options.Events.OnRedirectToLogin = context =>
         {
