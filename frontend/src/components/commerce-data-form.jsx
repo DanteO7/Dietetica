@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDataStore } from "../store/data-store";
 import FormInput from "./form-input";
 import { useEffect } from "react";
+import { X } from "lucide-react";
 
 export default function CommerceDataForm({ close }) {
   const { setData, commerceName } = useDataStore();
@@ -34,7 +35,10 @@ export default function CommerceDataForm({ close }) {
 
   return (
     <Modal open={true} onClose={close}>
-      <h3 className="font-semibold text-xl">Elegir datos del negocio</h3>
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-xl font-semibold">Elegir datos del negocio</h2>
+        <X className="cursor-pointer hover:text-gray-500" onClick={close} />
+      </div>{" "}
       <form
         noValidate
         className="flex flex-col gap-5 pt-5"
