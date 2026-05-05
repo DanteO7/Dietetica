@@ -106,17 +106,6 @@ using (var scope = app.Services.CreateScope())
 
     var db = services.GetRequiredService<ApplicationDbContext>();
     var encoder = services.GetRequiredService<IEncoderServices>();
-
-    if (!db.Users.Any(u => u.Username == "Dante"))
-    {
-        db.Users.Add(new User
-        {
-            Username = "Dante",
-            Password = encoder.Encode("admin321")
-        });
-
-        db.SaveChanges();
-    }
 }
 
 // Configure the HTTP request pipeline.

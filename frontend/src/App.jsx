@@ -7,6 +7,8 @@ import { GuestRoute } from "./router/guest-route";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { me } from "./services/auth";
 import Header from "./components/header.jsx";
+import { Ring } from "ldrs/react";
+import "ldrs/react/Ring.css";
 
 // Lazy pages
 const Home = lazy(() => import("./pages/home.jsx"));
@@ -34,7 +36,15 @@ export default function App() {
         fallback={
           <>
             {location !== "/iniciar-sesion" ? <Header /> : <></>}
-            <p>Cargando</p>
+            <div className="flex justify-center pt-20">
+              <Ring
+                size="40"
+                stroke="5"
+                bgOpacity="0"
+                speed="2"
+                color="#374151"
+              />
+            </div>
           </>
         }
       >

@@ -76,7 +76,7 @@ export default function Products() {
 
   return (
     <MainLayout>
-      <div className="flex w-full">
+      <div className="flex w-full h-[calc(100vh-64px)]">
         <div
           className={`overflow-y-auto scrollbar-hide transition-all duration-300 ${openDetail ? "w-[60%]" : "w-full"}`}
         >
