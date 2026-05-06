@@ -2,7 +2,7 @@
 bin/
 obj/
 .vs/
-appsettings.Devepolment.json
+appsettings*.json
 
 # ===== Node / React =====
 node_modules/
