@@ -196,7 +196,7 @@ export default function CreateProductForm({ close }) {
         />
 
         <FormInput
-          label="Nombre corto"
+          label="Nombre corto (32 caracteres)"
           id="shortName"
           type="text"
           placeholder="Ej: Empanadas de JyQ x4..."

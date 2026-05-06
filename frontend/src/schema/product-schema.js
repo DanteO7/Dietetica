@@ -4,7 +4,9 @@ export const createProductSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   shortName: z
     .string()
-    .max(32, "El nombre corto no puede tener mas de 40 caracteres"),
+    .max(32, "El nombre corto no puede tener mas de 40 caracteres")
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
   price: z.coerce
     .number()
     .positive("El precio debe ser mayor a cero")
@@ -42,7 +44,9 @@ export const updateProductSchema = z.object({
     .max(100, "Máximo 100 caracteres"),
   shortName: z
     .string()
-    .max(32, "El nombre corto no puede tener mas de 40 caracteres"),
+    .max(32, "El nombre corto no puede tener mas de 40 caracteres")
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
   price: z.coerce
     .number()
     .positive("El precio debe ser mayor a cero")

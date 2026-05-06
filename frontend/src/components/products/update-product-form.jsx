@@ -223,7 +223,7 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         />
 
         <FormInput
-          label="Nombre corto"
+          label="Nombre corto (32 caracteres)"
           id="shortName"
           type="text"
           placeholder="Ej: Empanadas de JyQ x4..."
