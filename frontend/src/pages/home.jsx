@@ -247,7 +247,10 @@ export default function Home() {
               Imprimir Ticket
             </button>
             <button
-              onClick={() => handleOpenSale()}
+              onClick={() => {
+                setError(null);
+                handleOpenSale();
+              }}
               className="border bg-green-700 text-[#efefef] rounded-[7px] px-3 py-2 mt-2 hover:text-green-700 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
             >
               Realizar Venta

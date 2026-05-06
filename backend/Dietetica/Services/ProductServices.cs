@@ -134,21 +134,24 @@ namespace Dietetica.Services
                     "El nombre no puede ser nulo o tener mas de 100 carácteres");
             }
 
-            if (createProductDTO.ShortName != null)
+            string? shortName;
+            if (string.IsNullOrWhiteSpace(createProductDTO.ShortName))
             {
-                if (string.IsNullOrWhiteSpace(createProductDTO.ShortName))
+                if (createProductDTO.Name.Length <= 32)
+                {
+                    shortName = null;
+                }
+                else
                 {
                     throw new HttpResponseError(
                         HttpStatusCode.BadRequest,
-                        "El nombre corto no puede estar vacío");
+                        "Debe ingresar un nombre corto si el nombre supera los 32 caracteres"
+                    );
                 }
-
-                if (createProductDTO.ShortName.Length > 32)
-                {
-                    throw new HttpResponseError(
-                        HttpStatusCode.BadRequest,
-                        "El nombre corto no puede tener más de 32 caracteres");
-                }
+            }
+            else
+            {
+                shortName = createProductDTO.ShortName;
             }
 
             if (createProductDTO.Price <= 0)
@@ -245,9 +248,7 @@ namespace Dietetica.Services
             var product = new Product
             {
                 Name = createProductDTO.Name.Trim(),
-                ShortName = string.IsNullOrWhiteSpace(createProductDTO.ShortName)
-                    ? null
-                    : createProductDTO.ShortName.Trim(),
+                ShortName = shortName,
                 Price = createProductDTO.Price,
                 Stock = createProductDTO.Stock,
                 Type = createProductDTO.Type,
@@ -331,21 +332,25 @@ namespace Dietetica.Services
             }
 
             // ShortName
-            if (updateProductDTO.ShortName != null)
+            string? shortName;
+            if (string.IsNullOrWhiteSpace(updateProductDTO.ShortName))
             {
-                if (string.IsNullOrWhiteSpace(updateProductDTO.ShortName))
+                var effectiveName = updateProductDTO.Name ?? product.Name;
+                if (effectiveName.Length <= 32)
+                {
+                    shortName = null;
+                }
+                else
                 {
                     throw new HttpResponseError(
                         HttpStatusCode.BadRequest,
-                        "El nombre corto no puede estar vacío");
+                        "Debe ingresar un nombre corto si el nombre supera los 32 caracteres"
+                    );
                 }
-
-                if (updateProductDTO.ShortName.Length > 32)
-                {
-                    throw new HttpResponseError(
-                        HttpStatusCode.BadRequest,
-                        "El nombre corto no puede tener más de 32 caracteres");
-                }
+            }
+            else
+            {
+                shortName = updateProductDTO.ShortName.Trim();
             }
 
             // Precio
@@ -442,10 +447,7 @@ namespace Dietetica.Services
             if (updateProductDTO.Name != null)
                 product.Name = updateProductDTO.Name.Trim();
 
-            if (updateProductDTO.ShortName != null)
-                product.ShortName = string.IsNullOrWhiteSpace(updateProductDTO.ShortName)
-                    ? null
-                    : updateProductDTO.ShortName.Trim();
+            product.ShortName = shortName;
 
             await _productRepository.UpdateOneAsync(product);
 

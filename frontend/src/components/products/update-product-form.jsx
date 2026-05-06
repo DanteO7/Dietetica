@@ -52,7 +52,6 @@ export default function UpdateProductForm({ close, product, productSelected }) {
       })),
     },
   });
-  console.log(errors);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "codes",
@@ -110,6 +109,8 @@ export default function UpdateProductForm({ close, product, productSelected }) {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
+
     setBackendError(null);
     try {
       let imageUrl = product.imageUrl;

@@ -30,9 +30,12 @@ export default function SignIn() {
       setLocation("/");
     },
     onError: (error) => {
-      const msg =
-        error?.response?.data?.message || "Ocurrió un error al iniciar sesión";
-
+      const data = error?.response?.data;
+      let msg = "Ocurrió un error al iniciar sesión";
+      if (typeof data === "string") msg = data;
+      else if (data?.errors)
+        msg = Object.values(data.errors).flat().join(" - ");
+      else if (data?.title) msg = data.title;
       setBackendError(msg);
     },
   });
