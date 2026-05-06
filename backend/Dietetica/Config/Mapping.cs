@@ -49,11 +49,7 @@ namespace Dietetica.Config
 
             // SALE ITEM
             CreateMap<CreateSaleItemDTO, SaleItem>();
-            CreateMap<SaleItem, ResponseSaleItemDTO>()
-                .ForMember(dest => dest.ProductName,
-                    opt => opt.MapFrom(src => src.Product.Name))
-                .ForMember(dest => dest.ProductType,
-                    opt => opt.MapFrom(src => src.Product.Type));
+            CreateMap<SaleItem, ResponseSaleItemDTO>();
 
             // USER
             CreateMap<CreateUserDTO, User>().ForMember(dest => dest.Password, opt => opt.Ignore());

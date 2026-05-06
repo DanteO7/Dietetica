@@ -100,14 +100,6 @@ builder.Services.AddDataProtection().PersistKeysToDbContext<ApplicationDbContext
 // APP
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var db = services.GetRequiredService<ApplicationDbContext>();
-    var encoder = services.GetRequiredService<IEncoderServices>();
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

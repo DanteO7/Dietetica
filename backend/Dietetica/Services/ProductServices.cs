@@ -134,6 +134,23 @@ namespace Dietetica.Services
                     "El nombre no puede ser nulo o tener mas de 100 carácteres");
             }
 
+            if (createProductDTO.ShortName != null)
+            {
+                if (string.IsNullOrWhiteSpace(createProductDTO.ShortName))
+                {
+                    throw new HttpResponseError(
+                        HttpStatusCode.BadRequest,
+                        "El nombre corto no puede estar vacío");
+                }
+
+                if (createProductDTO.ShortName.Length > 32)
+                {
+                    throw new HttpResponseError(
+                        HttpStatusCode.BadRequest,
+                        "El nombre corto no puede tener más de 32 caracteres");
+                }
+            }
+
             if (createProductDTO.Price <= 0)
             {
                 throw new HttpResponseError(
@@ -228,6 +245,9 @@ namespace Dietetica.Services
             var product = new Product
             {
                 Name = createProductDTO.Name.Trim(),
+                ShortName = string.IsNullOrWhiteSpace(createProductDTO.ShortName)
+                    ? null
+                    : createProductDTO.ShortName.Trim(),
                 Price = createProductDTO.Price,
                 Stock = createProductDTO.Stock,
                 Type = createProductDTO.Type,
@@ -307,6 +327,24 @@ namespace Dietetica.Services
                     throw new HttpResponseError(
                         HttpStatusCode.BadRequest,
                         "Ya existe un producto con ese nombre");
+                }
+            }
+
+            // ShortName
+            if (updateProductDTO.ShortName != null)
+            {
+                if (string.IsNullOrWhiteSpace(updateProductDTO.ShortName))
+                {
+                    throw new HttpResponseError(
+                        HttpStatusCode.BadRequest,
+                        "El nombre corto no puede estar vacío");
+                }
+
+                if (updateProductDTO.ShortName.Length > 32)
+                {
+                    throw new HttpResponseError(
+                        HttpStatusCode.BadRequest,
+                        "El nombre corto no puede tener más de 32 caracteres");
                 }
             }
 
@@ -403,6 +441,11 @@ namespace Dietetica.Services
 
             if (updateProductDTO.Name != null)
                 product.Name = updateProductDTO.Name.Trim();
+
+            if (updateProductDTO.ShortName != null)
+                product.ShortName = string.IsNullOrWhiteSpace(updateProductDTO.ShortName)
+                    ? null
+                    : updateProductDTO.ShortName.Trim();
 
             await _productRepository.UpdateOneAsync(product);
 

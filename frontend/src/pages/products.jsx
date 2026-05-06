@@ -76,9 +76,9 @@ export default function Products() {
 
   return (
     <MainLayout>
-      <div className="flex w-full h-[calc(100vh-64px)]">
+      <div className="flex w-full h-[calc(100vh-64px)] min-h-0">
         <div
-          className={`overflow-y-auto scrollbar-hide transition-all duration-300 ${openDetail ? "w-[60%]" : "w-full"}`}
+          className={`overflow-y-auto min-h-0 transition-all duration-300 ${openDetail ? "w-[60%]" : "w-full"}`}
         >
           <SearchFilters
             disabledEscaner={() => setScannerEnabled(false)}

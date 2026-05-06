@@ -24,7 +24,7 @@ export default function ProductDetail({
 
   return (
     <>
-      <div className="w-[40%] scrollbar-hide overflow-y-auto h-full">
+      <div className="w-[40%] overflow-y-auto h-full min-h-0">
         <div className="pl-16 flex flex-col gap-3 text-[18px]">
           <div className="flex ml-auto">
             <X
@@ -38,10 +38,9 @@ export default function ProductDetail({
             className="w-full m-auto object-cover rounded mb-5"
           />
 
+          <h2 className="text-4xl font-semibold mb-3">{product.name}</h2>
           <div className="flex justify-between items-end">
             <div className="flex flex-col gap-2">
-              <h2 className="text-4xl font-semibold mb-3">{product.name}</h2>
-
               <p>
                 Precio: ${product.price.toLocaleString("es-AR")}
                 {product.type === "Weight" && "/kg"}
@@ -49,7 +48,7 @@ export default function ProductDetail({
 
               <p>
                 Stock: {product.stock.toLocaleString("es-AR")}
-                {product.type === "Weight" ? "g" : "unidades"}
+                {product.type === "Weight" ? "g" : " unidades"}
               </p>
 
               <p className="">

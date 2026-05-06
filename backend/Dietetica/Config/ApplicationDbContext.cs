@@ -27,6 +27,9 @@ namespace Dietetica.Config
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(p => p.ShortName)
+                    .HasMaxLength(32);
+
                 entity.Property(p => p.Price)
                     .IsRequired()
                     .HasPrecision(10, 2);
@@ -81,7 +84,7 @@ namespace Dietetica.Config
                 entity.HasOne(s => s.PaymentMethod)
                     .WithMany()
                     .HasForeignKey(s => s.PaymentMethodId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasIndex(s => s.CreatedAt);
             });
@@ -89,6 +92,14 @@ namespace Dietetica.Config
             modelBuilder.Entity<SaleItem>(entity =>
             {
                 entity.HasKey(i => i.Id);
+
+                entity.Property(i => i.ProductName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(i => i.ProductType)
+                    .IsRequired()
+                    .HasConversion<string>();
 
                 entity.Property(i => i.Quantity)
                     .IsRequired()
@@ -105,8 +116,8 @@ namespace Dietetica.Config
 
                 entity.HasOne(i => i.Product)
                     .WithMany()
-                    .HasForeignKey(i => i.ProductId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(i => i.ProductId).IsRequired(false)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<PaymentMethod>(entity =>

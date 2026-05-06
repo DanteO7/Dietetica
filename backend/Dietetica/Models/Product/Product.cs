@@ -6,6 +6,7 @@ namespace Dietetica.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
+        public string? ShortName { get; set; }
         public decimal Price { get; set; }
         public decimal Stock { get; set; }
         public ProductType Type { get; set; }

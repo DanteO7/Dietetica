@@ -41,6 +41,7 @@ export default function UpdateProductForm({ close, product, productSelected }) {
     mode: "onTouched",
     defaultValues: {
       name: product.name,
+      shortName: product.shortName,
       price: product.price,
       stock: product.stock,
       type: product.type === "Unit" ? 1 : 2,
@@ -218,6 +219,16 @@ export default function UpdateProductForm({ close, product, productSelected }) {
           type="text"
           register={register("name")}
           error={errors.name}
+          disabled={isPending}
+        />
+
+        <FormInput
+          label="Nombre corto"
+          id="shortName"
+          type="text"
+          placeholder="Ej: Empanadas de JyQ x4..."
+          register={register("shortName")}
+          error={errors.shortName}
           disabled={isPending}
         />
 

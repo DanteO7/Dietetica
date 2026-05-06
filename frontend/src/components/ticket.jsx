@@ -2,6 +2,8 @@ import { forwardRef } from "react";
 import { useDataStore } from "../store/data-store";
 
 const Ticket = forwardRef(({ sale }, ref) => {
+  console.log(sale);
+
   const { commerceName } = useDataStore();
 
   return (

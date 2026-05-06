@@ -4,6 +4,7 @@ using Dietetica.Enums;
 using Dietetica.Models;
 using Dietetica.Models.DTO;
 using Dietetica.Repositories;
+using Dietetica.Utils.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Net;
@@ -34,9 +35,7 @@ namespace Dietetica.Services
 
             if (date.HasValue)
             {
-                var start = DateTime.SpecifyKind(date.Value.Date, DateTimeKind.Utc);
-                var end = start.AddDays(1);
-
+                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value);
                 query = query.Where(s => s.CreatedAt >= start && s.CreatedAt < end);
             }
 
@@ -50,7 +49,7 @@ namespace Dietetica.Services
             query = query.OrderByDescending(s => s.CreatedAt);
 
             var sales = await query
-                .Include(s => s.Items).ThenInclude(i => i.Product)
+                .Include(s => s.Items)
                 .Include(s => s.PaymentMethod)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -119,6 +118,8 @@ namespace Dietetica.Services
                 saleItems.Add(new SaleItem
                 {
                     ProductId = product.Id,
+                    ProductName = product.ShortName ?? product.Name,
+                    ProductType = product.Type,
                     Quantity = item.Quantity,
                     UnitPrice = product.Price
                 });
@@ -177,9 +178,7 @@ namespace Dietetica.Services
 
             if (date.HasValue)
             {
-                var start = DateTime.SpecifyKind(date.Value.Date, DateTimeKind.Utc);
-                var end = start.AddDays(1);
-
+                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value);
                 query = query.Where(s => s.CreatedAt >= start && s.CreatedAt < end);
             }
 

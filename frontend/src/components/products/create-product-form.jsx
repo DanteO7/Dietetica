@@ -195,6 +195,16 @@ export default function CreateProductForm({ close }) {
           disabled={isPending}
         />
 
+        <FormInput
+          label="Nombre corto"
+          id="shortName"
+          type="text"
+          placeholder="Ej: Empanadas de JyQ x4..."
+          register={register("shortName")}
+          error={errors.shortName}
+          disabled={isPending}
+        />
+
         <ImageInput onChange={handleImage} preview={preview} />
 
         <FormInput
