@@ -10,8 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine("ENV: " + builder.Environment.EnvironmentName);
-Console.WriteLine("CONN: " + builder.Configuration.GetConnectionString("DefaultConnection"));
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
