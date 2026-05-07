@@ -169,6 +169,8 @@ export default function Home() {
                 key={i.productId}
                 product={i.product}
                 quantity={i.quantity}
+                setItems={setItems}
+                setError={setError}
                 selectProduct={() => setProductSelected(i.product)}
                 removeProduct={() => {
                   removeProduct(i.productId);

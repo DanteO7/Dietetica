@@ -1,9 +1,11 @@
-import { SquarePen, Trash2 } from "lucide-react";
+import { Minus, Plus, SquarePen, Trash2 } from "lucide-react";
 import React from "react";
 
 export default function SaleProductItem({
   product,
   quantity,
+  setItems,
+  setError,
   selectProduct,
   removeProduct,
   productSelected,
@@ -13,14 +15,76 @@ export default function SaleProductItem({
       ? (product.price * quantity) / 1000
       : product.price * quantity;
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4  mb-3">
       <span className="mb-3 text-2xl">
         x{quantity}
         {product.type === "Unit" ? "u" : "g"}
       </span>
+      <div className="flex flex-col gap-1">
+        <div
+          onClick={() =>
+            setItems((prev) => {
+              const exists = prev.find((i) => i.productId === product.id);
+              if (exists) {
+                var newQty;
+                if (product.type === "Unit") {
+                  newQty = exists.quantity + 1;
+                } else {
+                  newQty = exists.quantity + 50;
+                }
+
+                if (newQty > product.stock) {
+                  setError(`Supera el stock disponible de: ${product.name}`);
+                  return prev;
+                }
+
+                return prev.map((item) =>
+                  item.productId === product.id
+                    ? { ...item, quantity: newQty }
+                    : item,
+                );
+              }
+            })
+          }
+          className="border rounded cursor-pointer m-auto hover:bg-gray-200 transition-all duration-150"
+        >
+          <Plus size={20} />
+        </div>
+        <div
+          onClick={() =>
+            setItems((prev) => {
+              const exists = prev.find((i) => i.productId === product.id);
+              if (exists) {
+                var newQty;
+                if (product.type === "Unit") {
+                  newQty = exists.quantity - 1;
+                } else {
+                  newQty = exists.quantity - 50;
+                }
+
+                if (newQty <= 0) {
+                  setError(
+                    `La cantidad no puede ser menor o igual a cero: ${product.name}`,
+                  );
+                  return prev;
+                }
+
+                return prev.map((item) =>
+                  item.productId === product.id
+                    ? { ...item, quantity: newQty }
+                    : item,
+                );
+              }
+            })
+          }
+          className="border rounded cursor-pointer m-auto hover:bg-gray-200"
+        >
+          <Minus size={20} />
+        </div>
+      </div>
       <div
         onClick={() => selectProduct()}
-        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center mb-3 w-full py-5 border rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-150 ${productSelected.id === product.id ? "bg-[#e3e0e5]" : ""}`}
+        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center w-full py-5 border rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-150 ${productSelected?.id === product.id ? "bg-[#e3e0e5]" : ""}`}
       >
         <h4 className="truncate">{product.name}</h4>
 
