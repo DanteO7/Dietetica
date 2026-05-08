@@ -9,6 +9,7 @@ export default function SelectQuantityForm({
   product,
 }) {
   const [input, setInput] = useState(0);
+  const [error, setError] = useState("");
   return (
     <Modal open={true} onClose={close}>
       <div className="flex justify-between items-center mb-5">
@@ -28,10 +29,20 @@ export default function SelectQuantityForm({
             </>
           )}
         </p>
+        {error && <p className="text-red-600 mb-2">{error}</p>}
         <input
           type="number"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            if (e.target.value <= 0) {
+              setError("Seleccione una cantidad mayor a cero");
+            } else if (e.target.value > product.stock) {
+              setError("La cnatidad es mayor al stock");
+            } else {
+              setError("");
+            }
+          }}
           className="border rounded-[5px] p-1 w-[90px]"
           placeholder={product.type === "Unit" ? "Unidades" : "Gramos"}
         />
@@ -45,6 +56,10 @@ export default function SelectQuantityForm({
         </button>
         <button
           onClick={() => {
+            if (input <= 0) {
+              setError("Seleccione una cantidad mayor a cero");
+              return;
+            }
             setTimeout(() => {
               close();
               closeAll();

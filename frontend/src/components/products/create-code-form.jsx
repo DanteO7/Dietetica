@@ -12,10 +12,12 @@ import { useForm } from "react-hook-form";
 import FormInput from "../form-input";
 import { useFilterStore } from "../../store/filter-store";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function CreateCodeForm({ close, productSelected, productId }) {
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
   const { search, isGranel, isUnit } = useFilterStore();
 
   const queryClient = useQueryClient();
@@ -54,10 +56,11 @@ export default function CreateCodeForm({ close, productSelected, productId }) {
 
       productSelected(updatedProduct);
       setSuccessMessage("Código creado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -168,11 +171,6 @@ export default function CreateCodeForm({ close, productSelected, productId }) {
             {backendError}
           </p>
         )}
-        {succesMessage && (
-          <p className="text-green-600 font-semibold text-center mb-5">
-            {succesMessage}
-          </p>
-        )}
         <div className="flex gap-3 justify-end mt-5">
           <button
             type="button"
@@ -190,6 +188,13 @@ export default function CreateCodeForm({ close, productSelected, productId }) {
           </button>
         </div>
       </form>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

@@ -8,12 +8,14 @@ import { updateCodeSchema } from "../../schema/code-schema";
 import FormInput from "../form-input";
 import { useFilterStore } from "../../store/filter-store";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function UpdateCodeForm({ close, code, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
 
   const {
     setValue,
@@ -50,10 +52,11 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
       );
       productSelected(updatedProduct);
       setSuccessMessage("Código actualizado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -117,7 +120,6 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
         <h2 className="text-xl font-semibold">Editar código</h2>
         <X className="cursor-pointer hover:text-gray-500" onClick={close} />
       </div>
-
       <form
         noValidate
         onSubmit={handleSubmit(onSubmit)}
@@ -158,11 +160,6 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
             {backendError}
           </p>
         )}
-        {succesMessage && (
-          <p className="text-green-600 font-semibold text-center mb-5">
-            {succesMessage}
-          </p>
-        )}
 
         <div className="flex gap-3 justify-end mt-5">
           <button
@@ -180,6 +177,13 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
           </button>
         </div>
       </form>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

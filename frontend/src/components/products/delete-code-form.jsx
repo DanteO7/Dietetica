@@ -4,12 +4,14 @@ import { deleteCode } from "../../services/code";
 import { useState } from "react";
 import { useFilterStore } from "../../store/filter-store";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function DeleteCodeForm({ close, code, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
 
   const deleteMutation = useMutation({
     mutationKey: ["deleteCode"],
@@ -32,10 +34,11 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
       );
       productSelected(updatedProduct);
       setSuccessMessage("Código eliminado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -69,11 +72,6 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
           {backendError}
         </p>
       )}
-      {succesMessage && (
-        <p className="text-green-600 font-semibold text-center mb-5">
-          {succesMessage}
-        </p>
-      )}
       <div className="flex gap-3 justify-end">
         <button
           onClick={close}
@@ -88,6 +86,13 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
           Eliminar
         </button>
       </div>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

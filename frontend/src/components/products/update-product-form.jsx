@@ -10,12 +10,14 @@ import { updateProductSchema } from "../../schema/product-schema";
 import { uploadImage } from "../../services/upload";
 import { updateProduct } from "../../services/product";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function UpdateProductForm({ close, product, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(product.imageUrl || null);
   const modalRef = useRef(null);
@@ -88,10 +90,11 @@ export default function UpdateProductForm({ close, product, productSelected }) {
       );
       productSelected(updatedProduct);
       setSuccessMessage("Producto actualizado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -273,10 +276,9 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         </div>
 
         {fields.map((field, index) => (
-          <div key={field.id} className="flex gap-2 items-end">
+          <div key={field.id} className="flex items-end w-full gap-5">
             {/* id oculto para que se mande al backend */}
             <input type="hidden" {...register(`codes.${index}.id`)} />
-
             <FormInput
               label="Código"
               id={`code-value-${index}`}
@@ -286,14 +288,13 @@ export default function UpdateProductForm({ close, product, productSelected }) {
               error={errors.codes?.[index]?.value}
               disabled={isPending}
             />
-
             <div>
               <div className="mb-2 block">
                 <label className="text-black">Tipo</label>
               </div>
               <select
                 {...register(`codes.${index}.type`)}
-                className="rounded-[13px] px-1 py-2 w-full border-gray-200 border-[1.7px] bg-[#efefef]"
+                className="rounded-[13px] px-1 py-2 border-gray-200 border-[1.7px] bg-[#efefef] w-25"
               >
                 <option value="">Tipo</option>
                 <option value="1">Barras</option>
@@ -305,7 +306,6 @@ export default function UpdateProductForm({ close, product, productSelected }) {
                 </p>
               )}
             </div>
-
             <button
               type="button"
               className="pb-2.5"
@@ -313,19 +313,17 @@ export default function UpdateProductForm({ close, product, productSelected }) {
               disabled={fields.length === 1}
             >
               <Trash2 className="m-auto text-red-500 hover:text-red-800 transition-all duration-300 cursor-pointer" />
-            </button>
+            </button>{" "}
           </div>
         ))}
 
-        <button type="button" onClick={() => append({ value: "", type: "" })}>
+        <button
+          type="button"
+          className="border-gray-200 border-[1.7px] bg-[#efefef] w-1/3 rounded-[10px] py-1 m-auto cursor-pointer"
+          onClick={() => append({ value: "", type: "" })}
+        >
           + Agregar código
         </button>
-
-        {succesMessage && (
-          <p className="text-green-600 font-semibold text-center">
-            {succesMessage}
-          </p>
-        )}
 
         <div className="flex gap-3 justify-end mt-2">
           <button
@@ -344,6 +342,13 @@ export default function UpdateProductForm({ close, product, productSelected }) {
           </button>
         </div>
       </form>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

@@ -10,12 +10,14 @@ import { useFilterStore } from "../../store/filter-store";
 import FormInput from "../form-input";
 import ImageInput from "../image-input";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function CreateProductForm({ close }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -74,10 +76,11 @@ export default function CreateProductForm({ close }) {
         },
       );
       setSuccessMessage("Producto creado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -247,7 +250,7 @@ export default function CreateProductForm({ close }) {
         </div>
 
         {fields.map((field, index) => (
-          <div key={field.id} className="flex gap-2 items-end">
+          <div key={field.id} className="flex items-end w-full gap-5">
             <FormInput
               label="Código"
               id={`code-value-${index}`}
@@ -263,7 +266,7 @@ export default function CreateProductForm({ close }) {
               </div>
               <select
                 {...register(`codes.${index}.type`)}
-                className="rounded-[13px] px-1 py-2 w-full border-gray-200 border-[1.7px] bg-[#efefef] cursor-pointer"
+                className="rounded-[13px] px-1 py-2 border-gray-200 border-[1.7px] bg-[#efefef] cursor-pointer w-25"
               >
                 <option value="">Tipo</option>
                 <option value="1">Barras</option>
@@ -286,15 +289,13 @@ export default function CreateProductForm({ close }) {
           </div>
         ))}
 
-        <button type="button" onClick={() => append({ value: "", type: "" })}>
+        <button
+          type="button"
+          className="border-gray-200 border-[1.7px] bg-[#efefef] w-1/3 rounded-[10px] py-1 m-auto cursor-pointer"
+          onClick={() => append({ value: "", type: "" })}
+        >
           + Agregar código
         </button>
-
-        {succesMessage && (
-          <p className="text-green-600 font-semibold text-center">
-            {succesMessage}
-          </p>
-        )}
 
         <div className="flex gap-3 justify-end mt-2">
           <button
@@ -313,6 +314,13 @@ export default function CreateProductForm({ close }) {
           </button>
         </div>
       </form>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

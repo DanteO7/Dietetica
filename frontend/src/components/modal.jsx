@@ -1,7 +1,10 @@
 import { useEffect, forwardRef } from "react";
 import { createPortal } from "react-dom";
 
-const Modal = forwardRef(function Modal({ open, onClose, children }, ref) {
+const Modal = forwardRef(function Modal(
+  { open, onClose, children, isSuccesOrError },
+  ref,
+) {
   useEffect(() => {
     if (!open) return;
 
@@ -27,7 +30,11 @@ const Modal = forwardRef(function Modal({ open, onClose, children }, ref) {
     >
       <div
         ref={ref}
-        className="bg-white rounded-xl p-6 w-120 shadow-xl max-h-[90vh] overflow-y-auto"
+        className={` bg-white rounded-xl ${isSuccesOrError ? "p-0" : "p-6"} w-120 shadow-xl
+          max-h-[90vh] overflow-y-auto
+          transition-all duration-300 ease-out
+          translate-y-0 opacity-100
+          animate-modal`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

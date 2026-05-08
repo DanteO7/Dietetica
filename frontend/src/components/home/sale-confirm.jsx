@@ -3,10 +3,14 @@ import Modal from "../modal";
 import { createSale } from "../../services/sale";
 import { useState } from "react";
 import { X } from "lucide-react";
+import ErrorModal from "../error-modal";
+import SuccesModal from "../succes-modal";
 
 export default function SaleConfirm({ close, data, setSale }) {
   const [successMessage, setSuccessMessage] = useState("");
+  const [succesModal, setSuccesModal] = useState(false);
   const [backendError, setBackendError] = useState("");
+  const [errorModal, setErrorModal] = useState(false);
 
   const mutation = useMutation({
     mutationKey: ["createSale"],
@@ -14,10 +18,11 @@ export default function SaleConfirm({ close, data, setSale }) {
     onSuccess: (sale) => {
       setSale(sale);
       setSuccessMessage("Venta creada correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -27,6 +32,7 @@ export default function SaleConfirm({ close, data, setSale }) {
         msg = Object.values(data.errors).flat().join(" - ");
       else if (data?.title) msg = data.title;
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
   return (
@@ -36,10 +42,6 @@ export default function SaleConfirm({ close, data, setSale }) {
 
         <X className="cursor-pointer hover:text-gray-500" onClick={close} />
       </div>
-      {backendError && <p className="text-red-600 mb-2">{backendError}</p>}
-      {successMessage && (
-        <p className="text-green-600 mb-2">{successMessage}</p>
-      )}
       <div className="flex gap-3 justify-end">
         <button
           onClick={close}
@@ -56,6 +58,20 @@ export default function SaleConfirm({ close, data, setSale }) {
           {mutation.isPending ? "Procesando..." : "Aceptar"}
         </button>
       </div>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={successMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }

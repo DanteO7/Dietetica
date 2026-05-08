@@ -7,9 +7,11 @@ import PrintTicketConfirm from "../components/home/print-ticket-confirm";
 import SaleConfirm from "../components/home/sale-confirm";
 import { useReactToPrint } from "react-to-print";
 import Ticket from "../components/ticket";
+import ErrorModal from "../components/error-modal";
 
 export default function Home() {
   const [error, setError] = useState("");
+  const [errorModal, setErrorModal] = useState(false);
   const [productSelected, setProductSelected] = useState(null);
   const [items, setItems] = useState([]);
   const removeProduct = (productId) => {
@@ -34,11 +36,13 @@ export default function Home() {
     quantity = parseFloat(quantity);
     if (quantity <= 0) {
       setError("Cantidad inválida");
+      setErrorModal(true);
       return;
     }
 
     if (quantity > product.stock) {
       setError(`La cantidad supera el stock disponible de: ${product.name}`);
+      setErrorModal(true);
       return;
     }
 
@@ -52,6 +56,7 @@ export default function Home() {
 
         if (newQty > product.stock) {
           setError(`Supera el stock disponible de: ${product.name}`);
+          setErrorModal(true);
           return prev;
         }
 
@@ -77,7 +82,8 @@ export default function Home() {
       const product = await getProductByCode(code);
       addProduct(product, 1);
     } catch {
-      alert("Producto no encontrado");
+      setError("Producto no encontrado");
+      setErrorModal(true);
     }
   }, []);
 
@@ -111,13 +117,15 @@ export default function Home() {
   }, [handleScan]);
 
   const createData = () => {
-    if (!paymentMethodId) {
-      setError("Seleccioná un método de pago");
+    if (items.length === 0) {
+      setError("No hay productos en la venta");
+      setErrorModal(true);
       return null;
     }
 
-    if (items.length === 0) {
-      setError("No hay productos en la venta");
+    if (!paymentMethodId) {
+      setError("Seleccioná un método de pago");
+      setErrorModal(true);
       return null;
     }
 
@@ -162,7 +170,6 @@ export default function Home() {
               Agregar producto
             </button>
           </div>
-          {error && <p className="text-red-600 mb-2">{error}</p>}
           <div className="my-5 flex-1 overflow-y-auto pr-2">
             {items.map((i) => (
               <SaleProductItem
@@ -240,6 +247,7 @@ export default function Home() {
               onClick={() => {
                 if (saleData == null) {
                   setError("Primero tenes que realizar la venta");
+                  setErrorModal(true);
                   return;
                 }
                 handlePrint();
@@ -271,6 +279,13 @@ export default function Home() {
           close={() => setOpenSaleModal(false)}
           data={saleData}
           setSale={setSale}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={error}
+          isSuccesOrError={true}
         />
       )}
     </MainLayout>

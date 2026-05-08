@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFilterStore } from "../../store/filter-store";
 import { deleteProduct } from "../../services/product";
 import Modal from "../modal";
+import SuccesModal from "../succes-modal";
 
 export default function DeleteProductForm({
   close,
@@ -15,6 +16,7 @@ export default function DeleteProductForm({
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
   const [succesMessage, setSuccessMessage] = useState();
+  const [succesModal, setSuccesModal] = useState(false);
 
   const deleteMutation = useMutation({
     mutationFn: deleteProduct,
@@ -33,12 +35,13 @@ export default function DeleteProductForm({
         },
       );
       setSuccessMessage("Producto eliminado correctamente");
+      setSuccesModal(true);
       setBackendError(null);
       setTimeout(() => {
         close();
         closeDetail(); // cierra el aside si estaba abierto
         productSelected(null);
-      }, 1200);
+      }, 3000);
     },
     onError: (error) => {
       const data = error?.response?.data;
@@ -67,11 +70,6 @@ export default function DeleteProductForm({
           {backendError}
         </p>
       )}
-      {succesMessage && (
-        <p className="text-green-600 font-semibold text-center mb-5">
-          {succesMessage}
-        </p>
-      )}
 
       <div className="flex gap-3 justify-end">
         <button
@@ -87,6 +85,13 @@ export default function DeleteProductForm({
           Eliminar
         </button>
       </div>
+      {succesModal && (
+        <SuccesModal
+          close={() => setSuccesModal(false)}
+          message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
     </Modal>
   );
 }
