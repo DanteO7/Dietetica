@@ -18,6 +18,15 @@ export default function Sales() {
     to: new Date(),
   });
 
+  useEffect(() => {
+    if (!selected?.from) return;
+
+    setFilters({
+      date: format(selected.from, "yyyy-MM-dd"),
+      dateTo: selected.to ? format(selected.to, "yyyy-MM-dd") : undefined,
+    });
+  }, [selected, setFilters]);
+
   const [openDateModal, setOpenDateModal] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -122,7 +131,7 @@ export default function Sales() {
       {openDateModal && (
         <DateModal
           close={() => setOpenDateModal(false)}
-          changeTitle={setSelected}
+          changeSelected={setSelected}
         />
       )}
     </MainLayout>

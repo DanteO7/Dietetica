@@ -1,17 +1,15 @@
 import { useState } from "react";
 import Modal from "./modal";
-import { useSaleFilterStore } from "../store/sale-filter-store";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { X } from "lucide-react";
 
-export default function DateModal({ close, changeTitle }) {
+export default function DateModal({ close, changeSelected }) {
   const [selected, setSelected] = useState({
     from: new Date(),
     to: new Date(),
   });
-  const { setFilters } = useSaleFilterStore();
 
   let footer = <p>Seleccioná un rango.</p>;
 
@@ -50,17 +48,11 @@ export default function DateModal({ close, changeTitle }) {
           onClick={() => {
             if (!selected) return;
 
-            changeTitle({
+            changeSelected({
               from: selected.from,
               to: selected.to ?? undefined,
             });
 
-            setFilters({
-              date: format(selected.from, "yyyy-MM-dd"),
-              dateTo: selected.to
-                ? format(selected.to, "yyyy-MM-dd")
-                : undefined,
-            });
             close();
           }}
           className="px-4 py-2 rounded bg-green-500 text-white hover:bg-green-700 cursor-pointer transition-all duration-200"
