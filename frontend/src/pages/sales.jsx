@@ -5,23 +5,26 @@ import SaleCard from "../components/sales/sale-card";
 import { useSaleFilterStore } from "../store/sale-filter-store";
 import { useQuery } from "@tanstack/react-query";
 import { getSalesCount } from "../services/sale";
+import DateModal from "../components/date-modal";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 export default function Sales() {
   const sentinelRef = useRef(null);
   const [saleSelected, setSaleSelected] = useState(null);
-  const { setFilters, date, paymentMethodId } = useSaleFilterStore();
+  const { setFilters, date, dateTo, paymentMethodId } = useSaleFilterStore();
+  const [selected, setSelected] = useState({
+    from: new Date(),
+    to: new Date(),
+  });
+
+  const [openDateModal, setOpenDateModal] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteSales();
 
   const sales = data?.pages.flatMap((page) => page.items) ?? [];
-  const today = new Date().toLocaleDateString("en-CA");
 
-  useEffect(() => {
-    if (!date) {
-      setFilters({ date: today });
-    }
-  }, []);
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
@@ -40,33 +43,46 @@ export default function Sales() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const { data: count, isLoading } = useQuery({
-    queryKey: ["count-sales", date, paymentMethodId],
+    queryKey: ["count-sales", date, dateTo, paymentMethodId],
     queryFn: () =>
       getSalesCount({
         date,
+        dateTo,
         paymentMethodId,
       }),
   });
-  useEffect(() => {
-    if (date === undefined) {
-      setFilters({ date: today });
-    }
-  }, []);
+
+  const sameDay =
+    selected?.from &&
+    selected?.to &&
+    selected.from.toDateString() === selected.to.toDateString();
 
   return (
     <MainLayout>
+      {sameDay ? (
+        <h2 className="text-3xl font-semibold">
+          {format(selected.from, "PPPP", { locale: es })}
+        </h2>
+      ) : (
+        <h2 className="text-3xl font-semibold">
+          Desde {selected?.from && format(selected.from, "PPP", { locale: es })}
+          {selected?.to &&
+            ` - hasta ${format(selected.to, "PPP", { locale: es })}`}
+        </h2>
+      )}
+
       <div className="flex justify-between w-[60%] items-center text-xl">
-        <input
-          type="date"
-          className="border rounded-xl px-2 py-2"
-          value={date || ""}
-          onChange={(e) =>
-            setFilters({
-              date: e.target.value || undefined,
-            })
-          }
-        />
-        <p>Ventas en este dia: {isLoading ? "..." : count}</p>
+        <button
+          className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+          onClick={() => setOpenDateModal(true)}
+        >
+          Seleccionar fecha
+        </button>
+
+        <p>
+          Ventas en este {sameDay ? "dia" : "rango"}:{" "}
+          {isLoading ? "..." : count}
+        </p>
         <div className=" flex items-center gap-5">
           <label className="text-black">Método de pago:</label>
 
@@ -103,6 +119,12 @@ export default function Sales() {
           </p>
         )}
       </div>
+      {openDateModal && (
+        <DateModal
+          close={() => setOpenDateModal(false)}
+          changeTitle={setSelected}
+        />
+      )}
     </MainLayout>
   );
 }

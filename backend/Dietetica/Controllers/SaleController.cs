@@ -23,7 +23,8 @@ namespace Dietetica.Controllers
         [ProducesResponseType(typeof(PagedResponse<ResponseSaleDetailDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PagedResponse<ResponseSaleDetailDTO>>> GetAll(
-            [FromQuery] DateTime? date, 
+            [FromQuery] DateTime? date,
+            [FromQuery] DateTime? dateTo,
             [FromQuery] int? paymentMethodId, 
             [FromQuery] int page = 1, 
             [FromQuery] int pageSize = 10)
@@ -34,7 +35,7 @@ namespace Dietetica.Controllers
                 pageSize = pageSize <= 0 ? 10 : pageSize;
                 pageSize = pageSize > 50 ? 50 : pageSize;
 
-                var sales = await _saleServices.GetAll(date, paymentMethodId, page, pageSize);
+                var sales = await _saleServices.GetAll(date, dateTo, paymentMethodId, page, pageSize);
                 return Ok(sales);
             }
             catch (HttpResponseError ex)
@@ -114,9 +115,9 @@ namespace Dietetica.Controllers
             }
         }
         [HttpGet("count")]
-        public async Task<ActionResult<int>> GetCount(DateTime? date, int? paymentMethodId)
+        public async Task<ActionResult<int>> GetCount(DateTime? date, DateTime? dateTo, int? paymentMethodId)
         {
-            var count = await _saleServices.GetCount(date, paymentMethodId);
+            var count = await _saleServices.GetCount(date, dateTo, paymentMethodId);
             return Ok(count);
         }
     }

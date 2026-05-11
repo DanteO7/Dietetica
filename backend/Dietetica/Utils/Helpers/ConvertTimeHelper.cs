@@ -2,7 +2,7 @@
 {
     public static class ConvertTimeHelper
     {
-        public static (DateTime startUtc, DateTime endUtc) GetUtcRangeFromArgentinaDate(DateTime localDate)
+        public static (DateTime startUtc, DateTime endUtc) GetUtcRangeFromArgentinaDate(DateTime localDate, DateTime? dateTo)
         {
             TimeZoneInfo tz;
 
@@ -17,7 +17,20 @@
 
             var startLocal = localDate.Date;
             var startUtc = TimeZoneInfo.ConvertTimeToUtc(startLocal, tz);
-            var endUtc = startUtc.AddDays(1);
+
+            DateTime endUtc;
+
+            if (dateTo.HasValue)
+            {
+                endUtc = TimeZoneInfo.ConvertTimeToUtc(
+                    dateTo.Value.Date.AddDays(1),
+                    tz
+                );
+            }
+            else
+            {
+                endUtc = startUtc.AddDays(1);
+            }
 
             return (startUtc, endUtc);
         }

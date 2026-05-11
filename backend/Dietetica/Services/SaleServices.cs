@@ -8,6 +8,7 @@ using Dietetica.Utils.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dietetica.Services
 {
@@ -27,6 +28,7 @@ namespace Dietetica.Services
 
         public async Task<PagedResponse<ResponseSaleDetailDTO>> GetAll(
             DateTime? date,
+            DateTime? dateTo,
             int? paymentMethodId,
             int page = 1,
             int pageSize = 10)
@@ -35,7 +37,7 @@ namespace Dietetica.Services
 
             if (date.HasValue)
             {
-                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value);
+                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value, dateTo);
                 query = query.Where(s => s.CreatedAt >= start && s.CreatedAt < end);
             }
 
@@ -172,13 +174,13 @@ namespace Dietetica.Services
             await _saleRepository.UpdateOneAsync(sale);
             return _mapper.Map<ResponseSaleDTO>(sale);
         }
-        public async Task<int> GetCount(DateTime? date, int? paymentMethodId)
+        public async Task<int> GetCount(DateTime? date, DateTime? dateTo, int? paymentMethodId)
         {
             IQueryable<Sale> query = _saleRepository.Query();
 
             if (date.HasValue)
             {
-                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value);
+                var (start, end) = ConvertTimeHelper.GetUtcRangeFromArgentinaDate(date.Value, dateTo);
                 query = query.Where(s => s.CreatedAt >= start && s.CreatedAt < end);
             }
 
