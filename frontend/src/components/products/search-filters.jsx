@@ -84,7 +84,7 @@ export default function SearchFilters({ disabledEscaner, enableScanner }) {
         Stock bajo
       </label>
       <button
-        className="border rounded-[7px] px-2 py-1 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+        className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
         onClick={() => {
           disabledEscaner();
           setOpenModal(true);

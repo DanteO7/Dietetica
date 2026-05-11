@@ -165,7 +165,7 @@ export default function Home() {
             <h2 className="font-semibold text-3xl">Productos de la venta:</h2>
             <button
               onClick={() => setOpenAddModal(true)}
-              className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:text-gray-800 hover:bg-gray-300 transition-all duration-200 cursor-pointer"
+              className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
             >
               Agregar producto
             </button>
@@ -252,7 +252,7 @@ export default function Home() {
                 }
                 handlePrint();
               }}
-              className="border bg-gray-700 text-[#efefef] rounded-[7px] px-3 py-2 mt-2 hover:text-gray-800 hover:bg-gray-300 transition-all duration-200 cursor-pointer"
+              className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
             >
               Imprimir Ticket
             </button>
@@ -261,7 +261,7 @@ export default function Home() {
                 setError(null);
                 handleOpenSale();
               }}
-              className="border bg-green-700 text-[#efefef] rounded-[7px] px-3 py-2 mt-2 hover:text-green-700 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+              className="border bg-green-700 text-[#efefef] rounded-[7px] px-3 py-2 mt-2  hover:bg-green-800 transition-all duration-200 cursor-pointer"
             >
               Realizar Venta
             </button>
