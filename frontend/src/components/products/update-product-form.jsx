@@ -329,7 +329,7 @@ export default function UpdateProductForm({ close, product, productSelected }) {
           <button
             type="button"
             onClick={close}
-            className="px-4 py-2 rounded border cursor-pointer transition-all duration-200 hover:bg-gray-200"
+            className="px-4 py-2 rounded border cursor-pointer transition-all duration-200 hover:bg-[#e1e1e9]"
           >
             Cancelar
           </button>

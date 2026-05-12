@@ -33,6 +33,10 @@ export default function Header() {
             <Link href="/ventas" className={linkClass("/ventas")}>
               Ventas
             </Link>
+
+            <Link href="/metodos" className={linkClass("/metodos")}>
+              Metodos
+            </Link>
           </div>
         </div>
         {openDateModal && (

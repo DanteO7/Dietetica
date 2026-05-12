@@ -46,7 +46,7 @@ export default function SaleProductItem({
               }
             })
           }
-          className="border rounded cursor-pointer m-auto hover:bg-gray-200 transition-all duration-150"
+          className="border rounded cursor-pointer m-auto hover:bg-[#e1e1e9] transition-all duration-150"
         >
           <Plus size={20} />
         </div>
@@ -77,14 +77,14 @@ export default function SaleProductItem({
               }
             })
           }
-          className="border rounded cursor-pointer m-auto hover:bg-gray-200"
+          className="border rounded cursor-pointer m-auto hover:bg-[#e1e1e9]"
         >
           <Minus size={20} />
         </div>
       </div>
       <div
         onClick={() => selectProduct()}
-        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center w-full py-5 border rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-150 ${productSelected?.id === product.id ? "bg-[#e3e0e5]" : ""}`}
+        className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center w-full py-5 border rounded-lg cursor-pointer hover:bg-[#e1e1e9] transition-all duration-150 ${productSelected?.id === product.id ? "bg-[#e1e1e9]" : ""}`}
       >
         <h4 className="truncate">{product.name}</h4>
 

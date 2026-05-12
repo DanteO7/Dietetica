@@ -20,7 +20,7 @@ export default function SaleCard({ sale, select, saleSelected }) {
         onClick={
           saleSelected?.id === sale.id ? () => select(null) : () => select(sale)
         }
-        className="border rounded-xl py-5 px-6 cursor-pointer text-2xl hover:bg-gray-200 mb-4"
+        className="border rounded-xl py-5 px-6 cursor-pointer text-2xl hover:bg-[#e1e1e9] mb-4"
         whileHover={{ scale: 1.005 }}
         transition={{ duration: 0.2 }}
       >

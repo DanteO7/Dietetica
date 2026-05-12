@@ -24,7 +24,7 @@ export default function ImageInput({
 
       <label
         htmlFor="image-upload"
-        className={`rounded-[13px] px-3 py-2 w-full border-[1.7px] bg-[#efefef] cursor-pointer flex items-center gap-2 hover:bg-gray-200 transition-all ${
+        className={`rounded-[13px] px-3 py-2 w-full border-[1.7px] bg-[#efefef] cursor-pointer flex items-center gap-2 hover:bg-[#e1e1e9] transition-all ${
           error ? "border-red-500" : "border-gray-200"
         }`}
       >

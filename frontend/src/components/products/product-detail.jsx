@@ -66,7 +66,7 @@ export default function ProductDetail({
                   disabledEscaner();
                   setOpenProductUpdateModal(true);
                 }}
-                className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:text-gray-800 hover:bg-gray-300 transition-all duration-200 cursor-pointer"
+                className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
               >
                 Editar producto
               </button>
@@ -75,7 +75,7 @@ export default function ProductDetail({
                   disabledEscaner();
                   setOpenProductDeleteModal(true);
                 }}
-                className="border bg-red-500 text-[#efefef]  hover:text-red-500  rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+                className="border bg-red-500 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-red-700 transition-all duration-200 cursor-pointer"
               >
                 Eliminar producto
               </button>
@@ -89,7 +89,7 @@ export default function ProductDetail({
                 disabledEscaner();
                 setOpenCreateModal(true);
               }}
-              className="border rounded-[7px] px-2 py-1 mt-2 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+              className="border rounded-[7px] px-2 py-1 mt-2 hover:bg-[#e1e1e9] transition-all duration-200 cursor-pointer"
             >
               Agregar
             </button>

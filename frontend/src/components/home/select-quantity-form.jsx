@@ -50,7 +50,7 @@ export default function SelectQuantityForm({
       <div className="flex gap-3 justify-end">
         <button
           onClick={close}
-          className="cursor-pointer px-4 py-2 rounded border hover:bg-gray-200"
+          className="cursor-pointer px-4 py-2 rounded border hover:bg-[#e1e1e9]"
         >
           Cancelar
         </button>
