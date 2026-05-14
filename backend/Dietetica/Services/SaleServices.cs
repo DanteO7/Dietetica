@@ -145,7 +145,8 @@ namespace Dietetica.Services
                     var quantity = product.Type == ProductType.Weight
                         ? i.Quantity / 1000m
                         : i.Quantity;
-                    return quantity * i.UnitPrice;
+                    var total = quantity * i.UnitPrice;
+                    return total * (1 - method.Discount / 100m);
                 }),
                 TicketNumber = nextTicket,
                 PaymentMethodId = createSaleDTO.PaymentMethodId,

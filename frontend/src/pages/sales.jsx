@@ -8,6 +8,7 @@ import { getSalesCount } from "../services/sale";
 import DateModal from "../components/date-modal";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { getPaymentMethods } from "../services/payment-method";
 
 export default function Sales() {
   const sentinelRef = useRef(null);
@@ -16,6 +17,11 @@ export default function Sales() {
   const [selected, setSelected] = useState({
     from: new Date(),
     to: new Date(),
+  });
+
+  const { data: methods } = useQuery({
+    queryKey: ["getMethods"],
+    queryFn: getPaymentMethods,
   });
 
   useEffect(() => {
@@ -104,10 +110,15 @@ export default function Sales() {
             }
             className="rounded-[13px] p-2 min-w-[25%] border-gray-200 border-[1.7px] bg-[#efefef] cursor-pointer"
           >
-            <option value="">Todos</option>
-            <option value="1">Transferencia</option>
-            <option value="2">Efectivo</option>
-            <option value="3">Tarjeta</option>
+            <option value="">
+              {isLoading ? "Cargando..." : "Todos los metodos"}
+            </option>
+
+            {methods?.map((method) => (
+              <option key={method.id} value={method.id}>
+                {method.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>

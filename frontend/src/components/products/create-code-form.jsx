@@ -40,7 +40,6 @@ export default function CreateCodeForm({ close, productSelected, productId }) {
       queryClient.setQueryData(
         ["products", { search, isGranel, isUnit }],
         (old) => {
-          console.log("old:", old);
           if (!old) return old;
           return {
             ...old,
@@ -81,8 +80,6 @@ export default function CreateCodeForm({ close, productSelected, productId }) {
 
   const onSubmit = (data) => {
     setBackendError(null);
-    console.log(data);
-    console.log(productId);
 
     createMutation.mutate({
       productId: productId,

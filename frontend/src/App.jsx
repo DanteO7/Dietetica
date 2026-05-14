@@ -15,6 +15,7 @@ const Home = lazy(() => import("./pages/home.jsx"));
 const Products = lazy(() => import("./pages/products.jsx"));
 const SignIn = lazy(() => import("./pages/sign-in.jsx"));
 const Sales = lazy(() => import("./pages/sales.jsx"));
+const PaymentMethods = lazy(() => import("./pages/payment-methods.jsx"));
 const Page404 = lazy(() => import("./pages/page404.jsx"));
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ export default function App() {
           <ProtectedRoute path="/" component={Home} />
           <ProtectedRoute path="/productos" component={Products} />
           <ProtectedRoute path="/ventas" component={Sales} />
+          <ProtectedRoute path="/metodos" component={PaymentMethods} />
 
           <GuestRoute path="/iniciar-sesion" component={SignIn} />
           <Route>

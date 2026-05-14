@@ -8,6 +8,8 @@ import SaleConfirm from "../components/home/sale-confirm";
 import { useReactToPrint } from "react-to-print";
 import Ticket from "../components/ticket";
 import ErrorModal from "../components/error-modal";
+import { useQuery } from "@tanstack/react-query";
+import { getPaymentMethods } from "../services/payment-method";
 
 export default function Home() {
   const [error, setError] = useState("");
@@ -20,17 +22,24 @@ export default function Home() {
 
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openSaleModal, setOpenSaleModal] = useState(false);
-  const [paymentMethodId, setPaymentMethodId] = useState();
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [saleData, setSaleData] = useState(null);
   const [sale, setSale] = useState(null);
 
-  const total = items.reduce((acc, item) => {
+  const { data: methods, isLoading } = useQuery({
+    queryKey: ["getMethods"],
+    queryFn: getPaymentMethods,
+  });
+
+  const subtotal = items.reduce((acc, item) => {
     if (item.product.type === "Weight") {
       return acc + (item.product.price * item.quantity) / 1000;
     }
 
     return acc + item.product.price * item.quantity;
   }, 0);
+
+  const total = subtotal * (1 - (paymentMethod?.discount || 0) / 100);
 
   const addProduct = (product, quantity) => {
     quantity = parseFloat(quantity);
@@ -123,14 +132,14 @@ export default function Home() {
       return null;
     }
 
-    if (!paymentMethodId) {
+    if (!paymentMethod) {
       setError("Seleccioná un método de pago");
       setErrorModal(true);
       return null;
     }
 
     const data = {
-      paymentMethodId,
+      paymentMethodId: paymentMethod.id,
       items: items.map((i) => ({
         productId: i.productId,
         quantity: i.quantity,
@@ -193,19 +202,45 @@ export default function Home() {
               <label className="text-black">Método de pago:</label>
 
               <select
-                onChange={(e) => setPaymentMethodId(Number(e.target.value))}
+                value={paymentMethod?.id || ""}
+                onChange={(e) => {
+                  const method = methods.find(
+                    (m) => m.id === Number(e.target.value),
+                  );
+
+                  setPaymentMethod(method || null);
+                }}
                 className="rounded-[13px] px-1 py-2 min-w-[25%] border-gray-200 border-[1.7px] bg-[#efefef] cursor-pointer"
               >
-                <option value="">Seleccionar</option>
-                <option value="1">Transferencia</option>
-                <option value="2">Efectivo</option>
-                <option value="3">Tarjeta</option>
+                <option value="">
+                  {isLoading ? "Cargando..." : "Seleccionar"}
+                </option>
+
+                {methods?.map((method) => (
+                  <option key={method.id} value={method.id}>
+                    {method.name}
+                  </option>
+                ))}
               </select>
             </div>
 
-            <p className="text-3xl font-semibold">
-              Total: ${total.toLocaleString("es-AR")}
-            </p>
+            <div className="text-right">
+              {paymentMethod?.discount > 0 && (
+                <p className="text-lg text-gray-500 line-through">
+                  ${subtotal.toLocaleString("es-AR")}
+                </p>
+              )}
+
+              <p className="text-3xl font-semibold">
+                Total: ${total.toLocaleString("es-AR")}
+              </p>
+
+              {paymentMethod?.discount > 0 && (
+                <p className="text-green-600 text-lg">
+                  {paymentMethod.discount}% de descuento aplicado
+                </p>
+              )}
+            </div>
           </div>
         </div>
         <div className="w-[40%] flex flex-col justify-between">

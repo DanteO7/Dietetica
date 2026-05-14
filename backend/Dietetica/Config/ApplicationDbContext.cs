@@ -127,6 +127,11 @@ namespace Dietetica.Config
                 entity.Property(m => m.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(m => m.Discount)
+                    .IsRequired();
+
+                entity.HasIndex(p => p.Name).IsUnique();
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -25,9 +25,25 @@ namespace Dietetica.Services
 
         public async Task<ResponsePaymentMethodDTO> CreateOne(CreatePaymentMethodDTO createPaymentMethodDTO)
         {
-            if(string.IsNullOrWhiteSpace(createPaymentMethodDTO.Name) || createPaymentMethodDTO.Name.Length > 50)
+            var existingMethod = await _paymentMethodRepository.GetOneAsync(m => m.Name.ToLower() == createPaymentMethodDTO.Name.ToLower());
+            if(existingMethod != null)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, $"Ya existe un metodo de pago con el nombre = '{createPaymentMethodDTO.Name}'");
+            }
+
+            if (string.IsNullOrWhiteSpace(createPaymentMethodDTO.Name) || createPaymentMethodDTO.Name.Length > 50)
             {
                 throw new HttpResponseError(HttpStatusCode.BadRequest, $"El nombre no puede ser nulo o tener más de 50 carácteres");
+            }
+
+            if (createPaymentMethodDTO.Discount < 0)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "El descuento no puede ser menor a cero");
+            }
+
+            if (createPaymentMethodDTO.Discount > 100)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "El descuento no puede superior a 100%");
             }
 
             var method = _mapper.Map<PaymentMethod>(createPaymentMethodDTO);
@@ -53,12 +69,35 @@ namespace Dietetica.Services
                 throw new HttpResponseError(HttpStatusCode.NotFound, $"No se encontró un método de pago con el Id = '{methodId}'");
             }
 
+            if (updatePaymentMethodDTO.Name != null)
+            {
+                var existingMethod = await _paymentMethodRepository.GetOneAsync(
+                    m => m.Name.ToLower() == updatePaymentMethodDTO.Name.ToLower()
+                         && m.Id != methodId
+                );
+
+                if (existingMethod != null)
+                {
+                    throw new HttpResponseError(
+                        HttpStatusCode.BadRequest, $"Ya existe un metodo de pago con el nombre = '{updatePaymentMethodDTO.Name}'"
+                    );
+                }
+            }
+
             if (updatePaymentMethodDTO.Name != null && updatePaymentMethodDTO.Name.Length > 50)
             {
                 throw new HttpResponseError(HttpStatusCode.BadRequest, $"El nombre no puede tener más de 50 carácteres");
             }
+            if (updatePaymentMethodDTO.Discount != null && updatePaymentMethodDTO.Discount < 0)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "El descuento no puede ser menor a cero");
+            }
+            if (updatePaymentMethodDTO.Discount != null && updatePaymentMethodDTO.Discount > 100)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "El descuento no puede superior a 100%");
+            }
 
-            _mapper.Map(method, updatePaymentMethodDTO);
+            _mapper.Map(updatePaymentMethodDTO, method);
             await _paymentMethodRepository.UpdateOneAsync(method);
             return _mapper.Map<ResponsePaymentMethodDTO>(method);
         }
