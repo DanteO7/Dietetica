@@ -56,7 +56,7 @@ export default function CommerceDataForm({ close }) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="text-[#efefef] bg-[#333] rounded-[13px] px-3 py-2 w-full cursor-pointer border-[1.7px] border-[#333] hover:bg-gray-300 hover:text-[#333] hover:border-gray-400 transition duration-300"
+          className="text-[#efefef] shadow-md bg-[#333] rounded-[13px] px-3 py-2 w-full cursor-pointer border-[1.7px] border-[#333] hover:bg-black  transition duration-300"
         >
           Agregar datos
         </button>

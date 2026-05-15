@@ -11,11 +11,13 @@ import { uploadImage } from "../../services/upload";
 import { updateProduct } from "../../services/product";
 import Modal from "../modal";
 import SuccesModal from "../succes-modal";
+import ErrorModal from "../error-modal";
 
 export default function UpdateProductForm({ close, product, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
   const [succesMessage, setSuccessMessage] = useState();
   const [succesModal, setSuccesModal] = useState(false);
   const [file, setFile] = useState(null);
@@ -67,6 +69,7 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         top: 0,
         behavior: "smooth",
       });
+      setErrorModal(true);
     },
   });
 
@@ -104,6 +107,7 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         msg = Object.values(data.errors).flat().join(" - ");
       else if (data?.title) msg = data.title;
       setBackendError(msg);
+      setErrorModal(true);
       modalRef.current?.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -211,12 +215,6 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3.5"
       >
-        {backendError && (
-          <p className="text-red-600 font-semibold text-center">
-            {backendError}
-          </p>
-        )}
-
         <FormInput
           label="Nombre"
           id="name"
@@ -346,6 +344,13 @@ export default function UpdateProductForm({ close, product, productSelected }) {
         <SuccesModal
           close={() => setSuccesModal(false)}
           message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
           isSuccesOrError={true}
         />
       )}

@@ -9,11 +9,13 @@ import FormInput from "../form-input";
 import { useFilterStore } from "../../store/filter-store";
 import Modal from "../modal";
 import SuccesModal from "../succes-modal";
+import ErrorModal from "../error-modal";
 
 export default function UpdateCodeForm({ close, code, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
   const [succesMessage, setSuccessMessage] = useState();
   const [succesModal, setSuccesModal] = useState(false);
 
@@ -72,6 +74,7 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
       }
 
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
 
@@ -155,12 +158,6 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
           </div>
         </div>
 
-        {backendError && (
-          <p className="text-red-600 font-semibold text-center mb-5">
-            {backendError}
-          </p>
-        )}
-
         <div className="flex gap-3 justify-end mt-5">
           <button
             type="button"
@@ -181,6 +178,13 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
         <SuccesModal
           close={() => setSuccesModal(false)}
           message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
           isSuccesOrError={true}
         />
       )}

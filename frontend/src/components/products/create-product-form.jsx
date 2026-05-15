@@ -11,11 +11,13 @@ import FormInput from "../form-input";
 import ImageInput from "../image-input";
 import Modal from "../modal";
 import SuccesModal from "../succes-modal";
+import ErrorModal from "../error-modal";
 
 export default function CreateProductForm({ close }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
   const [succesMessage, setSuccessMessage] = useState();
   const [succesModal, setSuccesModal] = useState(false);
   const [file, setFile] = useState(null);
@@ -52,7 +54,10 @@ export default function CreateProductForm({ close }) {
 
   const uploadMutation = useMutation({
     mutationFn: uploadImage,
-    onError: () => setBackendError("Error al subir la imagen"),
+    onError: () => {
+      setBackendError("Error al subir la imagen");
+      setErrorModal(true);
+    },
   });
 
   const createMutation = useMutation({
@@ -90,6 +95,7 @@ export default function CreateProductForm({ close }) {
         msg = Object.values(data.errors).flat().join(" - ");
       else if (data?.title) msg = data.title;
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
 
@@ -182,12 +188,6 @@ export default function CreateProductForm({ close }) {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3.5"
       >
-        {backendError && (
-          <p className="text-red-600 font-semibold text-center">
-            {backendError}
-          </p>
-        )}
-
         <FormInput
           label="Nombre"
           id="name"
@@ -318,6 +318,13 @@ export default function CreateProductForm({ close }) {
         <SuccesModal
           close={() => setSuccesModal(false)}
           message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
           isSuccesOrError={true}
         />
       )}

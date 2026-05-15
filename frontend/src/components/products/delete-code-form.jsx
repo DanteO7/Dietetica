@@ -5,11 +5,13 @@ import { useState } from "react";
 import { useFilterStore } from "../../store/filter-store";
 import Modal from "../modal";
 import SuccesModal from "../succes-modal";
+import ErrorModal from "../error-modal";
 
 export default function DeleteCodeForm({ close, code, productSelected }) {
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
   const [succesMessage, setSuccessMessage] = useState();
   const [succesModal, setSuccesModal] = useState(false);
 
@@ -54,6 +56,7 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
       }
 
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
 
@@ -67,11 +70,6 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
       <p className="mb-5">
         ¿Seguro que querés eliminar el código '<b>{code.value}</b>'?
       </p>
-      {backendError && (
-        <p className="text-red-600 font-semibold text-center mb-5">
-          {backendError}
-        </p>
-      )}
       <div className="flex gap-3 justify-end">
         <button
           onClick={close}
@@ -90,6 +88,13 @@ export default function DeleteCodeForm({ close, code, productSelected }) {
         <SuccesModal
           close={() => setSuccesModal(false)}
           message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
           isSuccesOrError={true}
         />
       )}

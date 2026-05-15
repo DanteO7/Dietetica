@@ -7,7 +7,7 @@ export default function ErrorModal({ close, message, isSuccesOrError }) {
       <div className="bg-[#ec5e66] flex justify-center py-10">
         <CircleX className="text-white" size={80} />
       </div>
-      <div className="flex flex-col items-center justify-center gap-2 my-5">
+      <div className="flex flex-col items-center justify-center text-center px-5 gap-2 my-5">
         <h4 className="font-semibold text-2xl">Error!</h4>
         <p className="text-xl">{message}</p>
         <button

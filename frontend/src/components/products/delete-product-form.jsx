@@ -5,6 +5,7 @@ import { useFilterStore } from "../../store/filter-store";
 import { deleteProduct } from "../../services/product";
 import Modal from "../modal";
 import SuccesModal from "../succes-modal";
+import ErrorModal from "../error-modal";
 
 export default function DeleteProductForm({
   close,
@@ -15,6 +16,7 @@ export default function DeleteProductForm({
   const queryClient = useQueryClient();
   const { search, isGranel, isUnit } = useFilterStore();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
   const [succesMessage, setSuccessMessage] = useState();
   const [succesModal, setSuccesModal] = useState(false);
 
@@ -51,6 +53,7 @@ export default function DeleteProductForm({
         msg = Object.values(data.errors).flat().join(" - ");
       else if (data?.title) msg = data.title;
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
 
@@ -64,12 +67,6 @@ export default function DeleteProductForm({
       <p className="mb-6">
         ¿Seguro que querés eliminar <b>{product.name}</b>?
       </p>
-
-      {backendError && (
-        <p className="text-red-600 font-semibold text-center mb-5">
-          {backendError}
-        </p>
-      )}
 
       <div className="flex gap-3 justify-end">
         <button
@@ -89,6 +86,13 @@ export default function DeleteProductForm({
         <SuccesModal
           close={() => setSuccesModal(false)}
           message={succesMessage}
+          isSuccesOrError={true}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
           isSuccesOrError={true}
         />
       )}
