@@ -16,7 +16,7 @@ export default function ProductItem({
   return (
     <>
       <div
-        className="grid grid-cols-[1.4fr_1fr_1fr_1fr_1fr] text-center items-center w-full mb-2 py-5 border rounded-lg cursor-pointer hover:bg-[#e1e1e9] transition-all duration-200"
+        className="shadow-md grid grid-cols-[1.4fr_1fr_1fr_1fr_1fr] text-center items-center w-full mb-2 py-5 border rounded-lg cursor-pointer hover:bg-[#e1e1e9] transition-all duration-200"
         onClick={() => {
           openDetail(true);
           productSelected(product);

@@ -88,7 +88,7 @@ export default function Sales() {
 
       <div className="flex justify-between w-[60%] items-center text-xl">
         <button
-          className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+          className="shadow-md bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
           onClick={() => setOpenDateModal(true)}
         >
           Seleccionar fecha
@@ -108,7 +108,7 @@ export default function Sales() {
                 paymentMethodId: Number(e.target.value) || undefined,
               })
             }
-            className="rounded-[13px] p-2 min-w-[25%] border-gray-200 border-[1.7px] bg-[#efefef] cursor-pointer"
+            className="rounded-[13px] p-2 min-w-[25%] border-gray-400 border-[1.7px] bg-[#efefef] cursor-pointer"
           >
             <option value="">
               {isLoading ? "Cargando..." : "Todos los metodos"}

@@ -80,7 +80,7 @@ export default function UpdateMethodForm({ close, method }) {
       <form
         noValidate
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col gap-2"
+        className="flex flex-col gap-3.5"
       >
         <FormInput
           label="Nombre"

@@ -11,7 +11,7 @@ export default function SaleCard({ sale, select, saleSelected }) {
   });
 
   return (
-    <div key={sale.id}>
+    <div className="shadow-md rounded-xl">
       <div style={{ display: "none" }}>
         <Ticket ref={ticketRef} sale={sale} />
       </div>
@@ -62,7 +62,7 @@ export default function SaleCard({ sale, select, saleSelected }) {
                     e.stopPropagation();
                     handlePrint();
                   }}
-                  className="ml-5 border bg-gray-700 text-[#efefef] rounded-[7px] px-3 py-2 hover:text-gray-800 hover:bg-gray-300 transition-all duration-200 cursor-pointer"
+                  className="ml-5 shadow-md bg-gray-700 text-[#efefef] rounded-[7px] px-3 py-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
                 >
                   Imprimir Ticket
                 </button>

@@ -22,7 +22,7 @@ export default function SearchFilters({ disabledEscaner, enableScanner }) {
 
   return (
     <div className="mb-5 flex flex-wrap gap-3 items-center sticky top-0 bg-[#ede9ee] pb-3">
-      <div className="relative flex-1 min-w-62.5">
+      <div className="shadow-md rounded-xl relative flex-1 min-w-62.5">
         <Search
           size={18}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -84,7 +84,7 @@ export default function SearchFilters({ disabledEscaner, enableScanner }) {
         Stock bajo
       </label>
       <button
-        className="border bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+        className="shadow-md bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
         onClick={() => {
           disabledEscaner();
           setOpenModal(true);
