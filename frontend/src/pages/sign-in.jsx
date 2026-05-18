@@ -7,11 +7,15 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "../schema/auth-schema";
+import ErrorModal from "../components/error-modal";
+
+const isDemo = import.meta.env.VITE_IS_DEMO === "true";
 
 export default function SignIn() {
   const { setAuth } = useAuthStore();
   const [, setLocation] = useLocation();
   const [backendError, setBackendError] = useState();
+  const [errorModal, setErrorModal] = useState(false);
 
   const {
     register,
@@ -37,6 +41,7 @@ export default function SignIn() {
         msg = Object.values(data.errors).flat().join(" - ");
       else if (data?.title) msg = data.title;
       setBackendError(msg);
+      setErrorModal(true);
     },
   });
 
@@ -53,15 +58,12 @@ export default function SignIn() {
           className="flex max-w flex-col gap-3.5"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h2 className="text-center text-2xl font-bold">Sistema de Ventas</h2>
+          <h2 className="text-center text-2xl font-bold">
+            Sistema de Ventas {isDemo && "(Demo)"}
+          </h2>
           <p className="text-center text-gray-700 text-[16px]">
             Iniciar sesión
           </p>
-          {backendError && (
-            <p className="text-red-600 font-semibold text-center mb-2">
-              {backendError}
-            </p>
-          )}
           <div>
             <FormInput
               id="username"
@@ -91,7 +93,20 @@ export default function SignIn() {
             {mutation.isPending ? "Iniciando sesión..." : "Iniciar sesión"}
           </button>
         </form>
+        {isDemo && (
+          <div className="text-sm text-gray-600 mt-4">
+            Usuario: demo <br />
+            Contraseña: demo123
+          </div>
+        )}
       </div>
+      {errorModal && (
+        <ErrorModal
+          close={() => setErrorModal(false)}
+          message={backendError}
+          isSuccesOrError={true}
+        />
+      )}
     </div>
   );
 }

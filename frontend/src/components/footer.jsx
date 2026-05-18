@@ -1,6 +1,8 @@
 import { FooterDivider } from "flowbite-react";
 import { Circle } from "lucide-react";
 
+const isDemo = import.meta.env.VITE_IS_DEMO === "true";
+
 export default function Footer() {
   return (
     <footer className="bg-[#ede9ee] py-5">
@@ -14,6 +16,11 @@ export default function Footer() {
       <p className="text-center">
         &copy;2026 Sistema de Ventas. Todos los derechos reservados.
       </p>
+      {isDemo && (
+        <p className="text-center">
+          Demo pública — los datos se reinician periódicamente
+        </p>
+      )}
     </footer>
   );
 }
