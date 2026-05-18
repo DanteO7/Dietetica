@@ -1,68 +1,62 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace Dietetica.Services
 {
     public class StorageService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _config;
 
-        public StorageService(IHttpClientFactory httpClientFactory, IConfiguration config)
+        public StorageService(IConfiguration config)
         {
-            _httpClientFactory = httpClientFactory;
             _config = config;
+
+            var account = new Account(
+                config["Cloudinary:CloudName"],
+                config["Cloudinary:ApiKey"],
+                config["Cloudinary:ApiSecret"]
+            );
+
+            _cloudinary = new Cloudinary(account);
         }
 
         public async Task<string> UploadImageAsync(IFormFile file)
         {
-            var supabaseUrl = _config["Supabase:Url"];
-            var serviceKey = _config["Supabase:ServiceKey"];
-            var bucket = _config["Supabase:Bucket"];
-
-            var extension = Path.GetExtension(file.FileName);
-            var fileName = $"{Guid.NewGuid()}{extension}";
-            var path = $"products/{fileName}";
-
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Add("apikey", serviceKey);
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {serviceKey}");
-
             using var stream = file.OpenReadStream();
-            var content = new StreamContent(stream);
-            content.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
-            var response = await client.PostAsync(
-                $"{supabaseUrl}/storage/v1/object/{bucket}/{path}",
-                content
-            );
-
-            if (!response.IsSuccessStatusCode)
+            var uploadParams = new ImageUploadParams
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al subir imagen: {error}");
+                File = new FileDescription(file.FileName, stream),
+                Folder = $"{_config["Cloudinary:Folder"]}/products"
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                throw new Exception(uploadResult.Error.Message);
             }
 
-            return $"{supabaseUrl}/storage/v1/object/public/{bucket}/{path}";
+            return uploadResult.SecureUrl.ToString();
         }
 
         public async Task DeleteImageAsync(string imageUrl)
         {
-            var supabaseUrl = _config["Supabase:Url"];
-            var serviceKey = _config["Supabase:ServiceKey"];
-            var bucket = _config["Supabase:Bucket"];
+            var uri = new Uri(imageUrl);
 
-            var prefix = $"{supabaseUrl}/storage/v1/object/public/{bucket}/";
-            var path = imageUrl.Replace(prefix, "");
+            var fileName = Path.GetFileNameWithoutExtension(uri.AbsolutePath);
 
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Add("apikey", serviceKey);
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {serviceKey}");
+            var publicId = $"{_config["Cloudinary:Folder"]}/products/{fileName}";
 
-            var response = await client.DeleteAsync(
-                $"{supabaseUrl}/storage/v1/object/{bucket}/{path}"
-            );
-            var responseBody = await response.Content.ReadAsStringAsync();
+            var deleteParams = new DeletionParams(publicId);
+
+            var result = await _cloudinary.DestroyAsync(deleteParams);
+
+            if (result.Error != null)
+            {
+                throw new Exception(result.Error.Message);
+            }
         }
     }
 }
