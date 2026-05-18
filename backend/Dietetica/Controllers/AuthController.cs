@@ -17,6 +17,27 @@ namespace Dietetica.Controllers
             _authServices = authServices;
         }
 
+        //[HttpPost("register")]
+        //[ProducesResponseType(typeof(ResponseUserDTO), StatusCodes.Status201Created)]
+        //[ProducesResponseType(typeof(HttpMessage), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(HttpMessage), StatusCodes.Status500InternalServerError)]
+        //public async Task<ActionResult<ResponseUserDTO>> Register([FromBody] CreateUserDTO dto)
+        //{
+        //    try
+        //    {
+        //        var user = await _authServices.Register(dto, HttpContext);
+        //        return StatusCode(StatusCodes.Status201Created, user);
+        //    }
+        //    catch (HttpResponseError ex)
+        //    {
+        //        return StatusCode((int)ex.StatusCode, ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //}
+
         [HttpPost("login")]
         [ProducesResponseType(typeof(ResponseUserDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status404NotFound)]

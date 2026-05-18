@@ -6,16 +6,24 @@ namespace Dietetica.Middlewares
     public class CsrfProtectionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly string _allowedOrigin;
-
+        private readonly string[] _allowedOrigins;
         public CsrfProtectionMiddleware(RequestDelegate next, IConfiguration config)
         {
             _next = next;
-            _allowedOrigin = config["Frontend:Url"] ?? "https://localhost:7171";
+            _allowedOrigins = config
+                .GetSection("Frontend:AllowedOrigins")
+                .Get<string[]>()
+                ?? [];
         }
 
         public async Task Invoke(HttpContext context)
         {
+            if (context.Request.Path.StartsWithSegments("/swagger"))
+            {
+                await _next(context);
+                return;
+            }
+
             var method = context.Request.Method;
 
             if (method == HttpMethods.Post ||
@@ -25,14 +33,17 @@ namespace Dietetica.Middlewares
             {
                 var origin = context.Request.Headers["Origin"].ToString();
 
-                if (string.IsNullOrEmpty(origin) || origin != _allowedOrigin)
+                if (string.IsNullOrEmpty(origin) || !_allowedOrigins.Contains(origin))
                 {
                     context.Response.StatusCode = 403;
                     await context.Response.WriteAsync("Invalid origin");
                     return;
                 }
 
-                if (!context.Request.Headers.ContainsKey("X-Requested-With"))
+                var isSwagger = origin.Contains("localhost:5050");
+
+                if (!isSwagger &&
+                    !context.Request.Headers.ContainsKey("X-Requested-With"))
                 {
                     context.Response.StatusCode = 403;
                     await context.Response.WriteAsync("Missing required header");
