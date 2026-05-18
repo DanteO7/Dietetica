@@ -3,6 +3,7 @@ using Dietetica.Models.DTO;
 using Dietetica.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Net;
 
 namespace Dietetica.Controllers
@@ -39,6 +40,7 @@ namespace Dietetica.Controllers
         //}
 
         [HttpPost("login")]
+        [EnableRateLimiting("login")]
         [ProducesResponseType(typeof(ResponseUserDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status500InternalServerError)]

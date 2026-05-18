@@ -6,6 +6,8 @@ using Dietetica.Repositories;
 using Dietetica.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -101,6 +103,35 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDataProtection().PersistKeysToDbContext<ApplicationDbContext>();
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("global", config =>
+    {
+        config.PermitLimit = 70;
+        config.Window = TimeSpan.FromMinutes(1);
+        config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        config.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("login", config =>
+    {
+        config.PermitLimit = 5;
+        config.Window = TimeSpan.FromMinutes(1);
+        config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        config.QueueLimit = 0;
+    });
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+
+        await context.HttpContext.Response.WriteAsync(
+            "Too many requests",
+            token
+        );
+    };
+});
+
 // APP
 var app = builder.Build();
 
@@ -113,7 +144,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowFrontend"); 
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 
@@ -121,6 +154,6 @@ app.UseMiddleware<CsrfProtectionMiddleware>();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireRateLimiting("global");
 
 app.Run();
