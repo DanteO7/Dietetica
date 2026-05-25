@@ -12,17 +12,13 @@ const Ticket = forwardRef(({ sale }, ref) => {
       <h2 className="text-center text-[14px] font-bold uppercase">
         {commerceName}
       </h2>
-
       <p className="text-center">
         Ticket #{sale?.ticketNumber.toString().padStart(6, "0")}
       </p>
-
       <p className="text-center">
         {new Date(sale?.createdAt).toLocaleString("es-AR")}
       </p>
-
       <hr className="border-t border-dashed border-black my-[6px]" />
-
       <div className="space-y-[6px]">
         {sale?.items.map((i) => (
           <div key={i.id}>
@@ -46,21 +42,18 @@ const Ticket = forwardRef(({ sale }, ref) => {
           </div>
         ))}
       </div>
-
       <hr className="border-t border-dashed border-black my-[6px]" />
-
       <div className="flex justify-between font-bold text-[13px] mt-[4px]">
         <span>Total</span>
         <span>${sale?.total.toLocaleString("es-AR")}</span>
       </div>
-
       <p className="text-center text-[10px] mt-[6px]">
         {sale?.paymentMethod.name}
       </p>
-
       <p className="text-center text-[10px] mt-[10px]">
         ¡Gracias por su compra!
-      </p>
+      </p>{" "}
+      <div className="h-[25mm]" />
     </div>
   );
 });
