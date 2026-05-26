@@ -53,7 +53,7 @@ const Ticket = forwardRef(({ sale }, ref) => {
       <p className="text-center text-[10px] mt-[10px]">
         ¡Gracias por su compra!
       </p>{" "}
-      <div className="h-[25mm]" />
+      <div className="h-[35mm]" />
     </div>
   );
 });
