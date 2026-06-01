@@ -10,6 +10,7 @@ export default function SaleCard({ sale, select, saleSelected }) {
     contentRef: ticketRef,
   });
 
+  console.log(sale);
   return (
     <div className="shadow-md rounded-xl">
       <div style={{ display: "none" }}>

@@ -3,6 +3,7 @@ import { useDataStore } from "../store/data-store";
 
 const Ticket = forwardRef(({ sale }, ref) => {
   const { commerceName } = useDataStore();
+  console.log(sale);
 
   return (
     <div
@@ -35,8 +36,11 @@ const Ticket = forwardRef(({ sale }, ref) => {
               </span>
 
               <span>
-                ${i.unitPrice.toLocaleString("es-AR")}
-                {i.productType === "Weight" ? "/kg" : ""}
+                $
+                {(i.productType === "Weight"
+                  ? (i.unitPrice * i.quantity) / 1000
+                  : i.unitPrice * i.quantity
+                ).toLocaleString("es-AR")}
               </span>
             </div>
           </div>
@@ -49,11 +53,15 @@ const Ticket = forwardRef(({ sale }, ref) => {
       </div>
       <p className="text-center text-[10px] mt-[6px]">
         {sale?.paymentMethod.name}
+        {sale?.paymentMethod.discount
+          ? ` con ${sale?.paymentMethod.discount}% de descuento`
+          : ""}
       </p>
       <p className="text-center text-[10px] mt-[10px]">
         ¡Gracias por su compra!
-      </p>{" "}
+      </p>
       <div className="h-[25mm]" />
+      <span className="text-[1px]">.</span>
     </div>
   );
 });
