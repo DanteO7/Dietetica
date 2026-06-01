@@ -40,7 +40,9 @@ const Ticket = forwardRef(({ sale }, ref) => {
                 {(i.productType === "Weight"
                   ? (i.unitPrice * i.quantity) / 1000
                   : i.unitPrice * i.quantity
-                ).toLocaleString("es-AR")}
+                ).toLocaleString("es-AR", {
+                  maximumFractionDigits: 2,
+                })}
               </span>
             </div>
           </div>

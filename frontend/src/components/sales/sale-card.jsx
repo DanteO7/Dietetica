@@ -51,8 +51,13 @@ export default function SaleCard({ sale, select, saleSelected }) {
                   </p>
                   <p>{i.productName}</p>
                   <p>
-                    ${i.unitPrice.toLocaleString("es-AR")}
-                    {i.productType == "Unit" ? "" : "/kg"}
+                    $
+                    {(i.productType === "Weight"
+                      ? (i.unitPrice * i.quantity) / 1000
+                      : i.unitPrice * i.quantity
+                    ).toLocaleString("es-AR", {
+                      maximumFractionDigits: 2,
+                    })}
                   </p>
                 </div>
               ))}
