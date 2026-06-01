@@ -42,7 +42,10 @@ namespace Dietetica.Services
             {
                 query = query.Where(p =>
                     EF.Functions.ILike(p.Name, $"%{search}%") ||
-                    p.Codes.Any(c => EF.Functions.ILike(c.Value, $"%{search}%")));
+                    p.Codes.Any(c =>
+                        c.Type == CodeType.Auxiliary &&
+                        EF.Functions.ILike(c.Value, $"%{search}%")
+                    ));
             }
 
             if (isGranel == true && isUnit == true)
