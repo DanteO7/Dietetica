@@ -20,6 +20,7 @@ export default function Home() {
     setItems((prev) => prev.filter((item) => item.productId !== productId));
   };
 
+  const [scannerEnabled, setScannerEnabled] = useState(true);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openSaleModal, setOpenSaleModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
@@ -97,6 +98,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (!scannerEnabled) return;
     let buffer = "";
     let timeout = null;
 
@@ -123,7 +125,7 @@ export default function Home() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [handleScan]);
+  }, [handleScan, scannerEnabled]);
 
   const createData = () => {
     if (items.length === 0) {
@@ -173,7 +175,10 @@ export default function Home() {
           <div className="flex justify-between items-center  shrink-0">
             <h2 className="font-semibold text-3xl">Productos de la venta:</h2>
             <button
-              onClick={() => setOpenAddModal(true)}
+              onClick={() => {
+                setScannerEnabled(false);
+                setOpenAddModal(true);
+              }}
               className="shadow-md bg-gray-700 text-[#efefef] rounded-[7px] px-2.5 py-1.5 mt-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
             >
               Agregar producto
@@ -305,7 +310,10 @@ export default function Home() {
       </div>
       {openAddModal && (
         <AddProductForm
-          close={() => setOpenAddModal(false)}
+          close={() => {
+            setScannerEnabled(true);
+            setOpenAddModal(false);
+          }}
           addProduct={addProduct}
         />
       )}

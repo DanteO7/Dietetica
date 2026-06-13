@@ -4,6 +4,7 @@ import Modal from "../modal";
 import { Search, X } from "lucide-react";
 import { getProducts } from "../../services/product";
 import SelectQuantityForm from "./select-quantity-form";
+import CreateProductForm from "../products/create-product-form";
 
 export default function AddProductForm({ close, addProduct }) {
   const [inputValue, setInputValue] = useState("");
@@ -11,6 +12,7 @@ export default function AddProductForm({ close, addProduct }) {
   const [productSelected, setProductSelected] = useState(null);
   const [openQuantityModal, setOpenQuantityModal] = useState(false);
   const [error, setError] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   // debounce
   useEffect(() => {
@@ -83,26 +85,34 @@ export default function AddProductForm({ close, addProduct }) {
           ))}
       </div>
 
-      <div className="flex gap-3 justify-end">
+      <div className="flex justify-between">
         <button
-          onClick={close}
-          className="cursor-pointer px-4 py-2 rounded border hover:bg-[#e1e1e9]"
+          className="shadow-md bg-gray-700 text-[#efefef] rounded px-4 py-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+          onClick={() => setOpenModal(true)}
         >
-          Cancelar
+          Crear Producto
         </button>
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={close}
+            className="cursor-pointer px-4 py-2 rounded border hover:bg-[#e1e1e9] shadow-md"
+          >
+            Cancelar
+          </button>
 
-        <button
-          onClick={() => {
-            if (productSelected == null) {
-              setError("Selecciona algun producto");
-              return;
-            }
-            setOpenQuantityModal(true);
-          }}
-          className="cursor-pointer px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-        >
-          Agregar
-        </button>
+          <button
+            onClick={() => {
+              if (productSelected == null) {
+                setError("Selecciona algun producto");
+                return;
+              }
+              setOpenQuantityModal(true);
+            }}
+            className="cursor-pointer px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 shadow-md"
+          >
+            Agregar
+          </button>
+        </div>
       </div>
       {openQuantityModal && (
         <SelectQuantityForm
@@ -110,6 +120,13 @@ export default function AddProductForm({ close, addProduct }) {
           closeAll={() => close()}
           addProduct={addProduct}
           product={productSelected}
+        />
+      )}
+      {openModal && (
+        <CreateProductForm
+          close={() => {
+            setOpenModal(false);
+          }}
         />
       )}
     </Modal>
