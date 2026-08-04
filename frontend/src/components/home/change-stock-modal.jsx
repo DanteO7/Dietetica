@@ -92,18 +92,14 @@ export default function ChangeStockModal({
       <Modal open={true} onClose={close}>
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-xl font-semibold">Actualizar stock</h2>
-          <X
-            className="cursor-pointer hover:text-gray-500 transition"
-            onClick={close}
-            size={20}
-          />
+          <X className="cursor-pointer hover:text-gray-500" onClick={close} />
         </div>
 
-        <p className="text-gray-600 mb-4 text-sm">
+        <p className="mb-3">
           Producto: <span className="font-semibold">{product.name}</span>
         </p>
 
-        <p className="text-gray-600 mb-6 text-sm">
+        <p className="mb-6">
           Stock actual: <span className="font-semibold">{product.stock}</span>
         </p>
 
@@ -126,7 +122,7 @@ export default function ChangeStockModal({
             <button
               type="button"
               onClick={close}
-              className="border px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100 transition"
+              className="cursor-pointer px-4 py-2 rounded border hover:bg-[#e1e1e9]"
             >
               Cancelar
             </button>
@@ -134,7 +130,7 @@ export default function ChangeStockModal({
             <button
               type="submit"
               disabled={updateMutation.isPending || isSubmitting}
-              className="bg-[#333] text-white px-4 py-2 rounded-xl hover:bg-gray-700 transition disabled:opacity-50"
+              className="shadow-md bg-gray-700 text-[#efefef] rounded px-4 py-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
             >
               {updateMutation.isPending
                 ? "Actualizando..."

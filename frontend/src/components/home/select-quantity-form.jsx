@@ -55,7 +55,7 @@ export default function SelectQuantityForm({
         {error == "La cantidad es mayor al stock" ? (
           <button
             onClick={() => setOpenChangeStockModal(true)}
-            className="cursor-pointer px-4 py-2 self-start rounded border hover:bg-[#e1e1e9]"
+            className="shadow-md bg-gray-700 text-[#efefef] rounded px-4 py-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
           >
             Agregar Stock
           </button>
