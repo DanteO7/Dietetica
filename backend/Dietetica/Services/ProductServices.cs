@@ -555,5 +555,26 @@ namespace Dietetica.Services
                 existing.Type = codeDto.Type;
             }
         }
+        public async Task<ResponseProductDTO> UpdateStock(int id, int newStock)
+        {
+            var product = await _productRepository.GetOneAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                throw new HttpResponseError(HttpStatusCode.NotFound,
+                    $"No se encontró un producto con el Id = '{id}'");
+            }
+
+            if (newStock < 0)
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest,
+                    "El stock no puede ser negativo");
+            }
+
+            product.Stock = newStock;
+            await _productRepository.UpdateOneAsync(product);
+
+            return _mapper.Map<ResponseProductDTO>(product);
+        }
     }
 }

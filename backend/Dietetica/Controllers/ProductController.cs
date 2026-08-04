@@ -1,4 +1,6 @@
-﻿using backend_proyecto.Utils.Errors;
+﻿using backend_proyecto.Models.DTOs;
+using backend_proyecto.Utils.Errors;
+using CloudinaryDotNet.Actions;
 using Dietetica.Models.DTO;
 using Dietetica.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -167,6 +169,27 @@ namespace Dietetica.Controllers
             catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPatch("{id}/stock")]
+        [ProducesResponseType(typeof(ResponseProductDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpMessage), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseProductDTO>> UpdateStock(int id, [FromBody] UpdateProductStockDTO updateStockDTO)
+        {
+            try
+            {
+                var product = await _productServices.UpdateStock(id, updateStockDTO.Stock);
+                return Ok(product);
+            }
+            catch (HttpResponseError ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
     }

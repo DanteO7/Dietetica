@@ -67,7 +67,7 @@ export default function AddProductForm({ close, addProduct }) {
         )}
       </div>
       {error && <p className="text-red-600 mb-2">{error}</p>}
-      <div className="max-h-[350px] overflow-y-auto mb-5">
+      <div className="max-h-87.5 overflow-y-auto mb-5">
         {isLoading && <p>Buscando...</p>}
 
         {!isLoading &&
@@ -120,6 +120,7 @@ export default function AddProductForm({ close, addProduct }) {
           closeAll={() => close()}
           addProduct={addProduct}
           product={productSelected}
+          onProductUpdated={setProductSelected}
         />
       )}
       {openModal && (

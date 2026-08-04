@@ -10,6 +10,7 @@ import Ticket from "../components/ticket";
 import ErrorModal from "../components/error-modal";
 import { useQuery } from "@tanstack/react-query";
 import { getPaymentMethods } from "../services/payment-method";
+import ChangeStockModal from "../components/home/change-stock-modal";
 
 export default function Home() {
   const [error, setError] = useState("");
@@ -252,7 +253,7 @@ export default function Home() {
           <div className="flex flex-col gap-3 text-[19px] overflow-y-auto">
             <img
               src={productSelected?.imageUrl || "image-placeholder.png"}
-              className="w-full m-auto object-cover rounded mb-1 aspect-[1054/653]"
+              className="w-full m-auto object-cover rounded mb-1 aspect-1054/653"
             />
 
             <h2 className="text-4xl font-semibold">{productSelected?.name}</h2>
@@ -308,6 +309,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       {openAddModal && (
         <AddProductForm
           close={() => {

@@ -14,3 +14,6 @@ export const updateProduct = ({ id, data }) =>
   request("put", `/products/${id}`, data);
 
 export const deleteProduct = (id) => request("delete", `/products/${id}`);
+
+export const updateProductStock = (productId, data) =>
+  request("patch", `/products/${productId}/stock`, data);
