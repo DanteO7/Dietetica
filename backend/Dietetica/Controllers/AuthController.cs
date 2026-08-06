@@ -80,10 +80,10 @@ namespace Dietetica.Controllers
         }
 
         [HttpGet("health")]
-        [Authorize]
-        public bool Health()
+        [AllowAnonymous]
+        public IActionResult Health()
         {
-            return true;
+            return Ok();
         }
 
         [HttpGet("me")]
