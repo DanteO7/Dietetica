@@ -9,6 +9,7 @@ import { me } from "./services/auth";
 import Header from "./components/header.jsx";
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
+import useKeyboardNavigation from "./hooks/useKeyboardNavigation";
 
 // Lazy pages
 const Home = lazy(() => import("./pages/home.jsx"));
@@ -23,6 +24,10 @@ const queryClient = new QueryClient();
 export default function App() {
   const { setAuth, logout, finishLoading } = useAuthStore();
   const [location] = useLocation();
+  const {
+    isEnabled: keyboardNavigationEnabled,
+    isInteracting: keyboardNavigationInteracting,
+  } = useKeyboardNavigation();
 
   useEffect(() => {
     me()
@@ -62,6 +67,18 @@ export default function App() {
         </Switch>
       </Suspense>
       <ReactQueryDevtools initialIsOpen={false} />
+      <div
+        role="status"
+        aria-live="polite"
+        className="fixed bottom-3 right-3 z-[10000] rounded-full bg-gray-800/85 px-3 py-1 text-xs text-white shadow-md"
+      >
+        Navegación por teclado{" "}
+        {keyboardNavigationEnabled
+          ? keyboardNavigationInteracting
+            ? "activada · interacción"
+            : "activada · navegación"
+          : "desactivada"}
+      </div>
     </QueryClientProvider>
   );
 }

@@ -104,12 +104,17 @@ export default function Home() {
     let timeout = null;
 
     const handleKeyDown = (e) => {
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+      if (
+        document.querySelector("[data-modal-dialog]") ||
+        e.defaultPrevented ||
+        e.target.closest?.(
+          "input, textarea, select, [contenteditable='true'], button, a, [data-keyboard-nav-item]",
+        )
+      )
         return;
 
-      clearTimeout(timeout);
-
       if (e.key === "Enter") {
+        clearTimeout(timeout);
         if (buffer.length > 0) {
           handleScan(buffer);
           buffer = "";
@@ -117,6 +122,9 @@ export default function Home() {
         return;
       }
 
+      if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      clearTimeout(timeout);
       buffer += e.key;
 
       timeout = setTimeout(() => {

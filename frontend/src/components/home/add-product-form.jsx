@@ -59,20 +59,30 @@ export default function AddProductForm({ close, addProduct }) {
         />
 
         {inputValue && (
-          <X
-            size={18}
+          <button
+            type="button"
+            aria-label="Limpiar búsqueda"
             onClick={() => setInputValue("")}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-black"
-          />
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
         )}
       </div>
       {error && <p className="text-red-600 mb-2">{error}</p>}
-      <div className="max-h-87.5 overflow-y-auto mb-5">
+      <div
+        className="max-h-87.5 overflow-y-auto mb-5"
+      >
         {isLoading && <p>Buscando...</p>}
 
         {!isLoading &&
           products.map((p) => (
             <div
+              role="group"
+              aria-label={`Producto ${p.name}`}
+              tabIndex={0}
+              data-keyboard-nav-item
+              data-keyboard-activate
               key={p.id}
               className={`border rounded p-3 mb-2 cursor-pointer hover:bg-gray-100 ${productSelected?.id == p.id ? "border-2 bg-green-50 border-green-600" : ""}`}
               onClick={() => {

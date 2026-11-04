@@ -75,3 +75,9 @@ html {
 .animate-modal {
   animation: modal-up 0.3s ease-out;
 }
+
+[data-keyboard-nav-item]:focus-visible,
+[data-keyboard-selected="true"] {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}

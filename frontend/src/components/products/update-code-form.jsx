@@ -86,19 +86,26 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
   const handleScan = useCallback(async (code) => {
     setValue("value", code, { shouldValidate: true });
     setValue("type", "1", { shouldValidate: true });
-  }, []);
+  }, [setValue]);
 
   useEffect(() => {
     let buffer = "";
     let timeout = null;
 
     const handleKeyDown = (e) => {
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+      const dialogs = document.querySelectorAll("[data-modal-dialog]");
+      const topDialog = dialogs[dialogs.length - 1];
+      if (
+        (topDialog && !topDialog.contains(e.target)) ||
+        e.defaultPrevented ||
+        e.target.closest?.(
+          "input, textarea, select, [contenteditable='true'], button, a",
+        )
+      )
         return;
 
-      clearTimeout(timeout);
-
       if (e.key === "Enter") {
+        clearTimeout(timeout);
         if (buffer.length > 0) {
           handleScan(buffer);
           buffer = "";
@@ -106,6 +113,9 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
         return;
       }
 
+      if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      clearTimeout(timeout);
       buffer += e.key;
 
       timeout = setTimeout(() => {
@@ -118,7 +128,7 @@ export default function UpdateCodeForm({ close, code, productSelected }) {
   }, [handleScan]);
 
   return (
-    <Modal open={true} onClose={close}>
+    <Modal open={true} onClose={close} autoFocusFirst={false}>
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-xl font-semibold">Editar código</h2>
         <X className="cursor-pointer hover:text-gray-500" onClick={close} />

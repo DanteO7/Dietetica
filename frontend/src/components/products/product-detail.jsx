@@ -27,11 +27,14 @@ export default function ProductDetail({
       <div className="w-[40%] overflow-y-auto h-full min-h-0">
         <div className="pl-16 flex flex-col gap-3 text-[18px]">
           <div className="flex ml-auto">
-            <X
+            <button
+              type="button"
+              aria-label="Cerrar detalle del producto"
               onClick={() => openDetail(false)}
-              size={30}
               className="cursor-pointer hover:text-gray-600 duration-200 transition-all"
-            />
+            >
+              <X size={30} aria-hidden="true" />
+            </button>
           </div>
           <img
             src={product.imageUrl || "image-placeholder.png"}
@@ -103,22 +106,30 @@ export default function ProductDetail({
               <p className="w-28 shrink-0">
                 Tipo: {c.type === "Barcode" ? "Barras" : "Auxiliar"}
               </p>
-              <SquarePen
-                className="cursor-pointer text-gray-500 hover:text-black transition-all duration-300 shrink-0"
+              <button
+                type="button"
+                aria-label={`Editar código ${c.value}`}
                 onClick={() => {
                   disabledEscaner();
                   setCodeSelected(c);
                   setOpenUpdateModal(true);
                 }}
-              />
-              <Trash2
-                className="text-red-500 cursor-pointer hover:text-red-800 transition-all duration-300 shrink-0"
+                className="cursor-pointer text-gray-500 hover:text-black transition-all duration-300 shrink-0"
+              >
+                <SquarePen aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label={`Eliminar código ${c.value}`}
                 onClick={() => {
                   disabledEscaner();
                   setCodeSelected(c);
                   setOpenDeleteModal(true);
                 }}
-              />
+                className="text-red-500 cursor-pointer hover:text-red-800 transition-all duration-300 shrink-0"
+              >
+                <Trash2 aria-hidden="true" />
+              </button>
             </div>
           ))}
         </div>

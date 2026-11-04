@@ -122,7 +122,9 @@ export default function Sales() {
           </select>
         </div>
       </div>
-      <div className="w-[65%] overflow-y-auto px-1 pt-1 overflow-x-hidden scrollbar-hide">
+      <div
+        className="w-[65%] overflow-y-auto px-1 pt-1 overflow-x-hidden scrollbar-hide"
+      >
         {sales.map((s) => (
           <SaleCard
             key={s.id}

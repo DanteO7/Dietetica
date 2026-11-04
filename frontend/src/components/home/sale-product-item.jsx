@@ -1,5 +1,4 @@
-import { Minus, Plus, SquarePen, Trash2 } from "lucide-react";
-import React from "react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function SaleProductItem({
   product,
@@ -21,7 +20,9 @@ export default function SaleProductItem({
         {product.type === "Unit" ? "u" : "g"}
       </span>
       <div className="flex flex-col gap-1">
-        <div
+        <button
+          type="button"
+          aria-label={`Aumentar cantidad de ${product.name}`}
           onClick={() =>
             setItems((prev) => {
               const exists = prev.find((i) => i.productId === product.id);
@@ -49,8 +50,10 @@ export default function SaleProductItem({
           className="border rounded cursor-pointer m-auto hover:bg-[#e1e1e9] transition-all duration-150"
         >
           <Plus size={20} />
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
+          aria-label={`Disminuir cantidad de ${product.name}`}
           onClick={() =>
             setItems((prev) => {
               const exists = prev.find((i) => i.productId === product.id);
@@ -80,9 +83,14 @@ export default function SaleProductItem({
           className="border rounded cursor-pointer m-auto hover:bg-[#e1e1e9]"
         >
           <Minus size={20} />
-        </div>
+        </button>
       </div>
       <div
+        role="group"
+        aria-label={`Producto ${product.name} en la venta`}
+        tabIndex={0}
+        data-keyboard-nav-item
+        data-keyboard-activate
         onClick={() => selectProduct()}
         className={`grid grid-cols-[1.4fr_1fr_1.2fr_1.2fr_1fr] text-center items-center w-full py-5 border rounded-lg cursor-pointer hover:bg-[#e1e1e9] transition-all duration-150 ${productSelected?.id === product.id ? "bg-[#e1e1e9]" : ""}`}
       >
@@ -100,13 +108,17 @@ export default function SaleProductItem({
 
         <p>Subtotal: ${subtotal.toLocaleString("es-AR")}</p>
 
-        <Trash2
+        <button
+          type="button"
+          aria-label={`Quitar ${product.name} de la venta`}
           onClick={(e) => {
             e.stopPropagation();
             removeProduct();
           }}
-          className="m-auto text-red-500 hover:text-red-800 transition-all duration-300"
-        />
+          className="m-auto text-red-500 hover:text-red-800 transition-all duration-300 cursor-pointer"
+        >
+          <Trash2 aria-hidden="true" />
+        </button>
       </div>
     </div>
   );

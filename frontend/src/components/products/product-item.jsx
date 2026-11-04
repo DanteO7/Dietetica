@@ -16,6 +16,11 @@ export default function ProductItem({
   return (
     <>
       <div
+        role="group"
+        aria-label={`Producto ${product.name}`}
+        tabIndex={0}
+        data-keyboard-nav-item
+        data-keyboard-activate
         className="shadow-md grid grid-cols-[1.4fr_1fr_1fr_1fr_1fr] text-center items-center w-full mb-2 py-5 border rounded-lg cursor-pointer hover:bg-[#e1e1e9] transition-all duration-200"
         onClick={() => {
           openDetail(true);
@@ -34,23 +39,31 @@ export default function ProductItem({
           {product.type === "Weight" ? "g" : " unidades"}
         </p>
 
-        <SquarePen
-          className="m-auto text-gray-500 hover:text-black transition-all duration-300"
+        <button
+          type="button"
+          aria-label={`Editar ${product.name}`}
           onClick={(e) => {
             disabledEscaner();
             e.stopPropagation();
             setOpenUpdateModal(true);
           }}
-        />
+          className="m-auto text-gray-500 hover:text-black transition-all duration-300 cursor-pointer"
+        >
+          <SquarePen aria-hidden="true" />
+        </button>
 
-        <Trash2
-          className="m-auto text-red-500 hover:text-red-800 transition-all duration-300"
+        <button
+          type="button"
+          aria-label={`Eliminar ${product.name}`}
           onClick={(e) => {
             disabledEscaner();
             e.stopPropagation();
             setOpenDeleteModal(true);
           }}
-        />
+          className="m-auto text-red-500 hover:text-red-800 transition-all duration-300 cursor-pointer"
+        >
+          <Trash2 aria-hidden="true" />
+        </button>
       </div>
 
       {openUpdateModal && (

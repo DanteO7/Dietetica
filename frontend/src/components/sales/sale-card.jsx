@@ -3,6 +3,8 @@ import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
 import Ticket from "../ticket";
 
+const MotionDiv = motion.div;
+
 export default function SaleCard({ sale, select, saleSelected }) {
   const ticketRef = useRef();
 
@@ -17,7 +19,12 @@ export default function SaleCard({ sale, select, saleSelected }) {
         <Ticket ref={ticketRef} sale={sale} />
       </div>
 
-      <motion.div
+      <MotionDiv
+        role="group"
+        aria-label={`Venta ${sale.ticketNumber.toString().padStart(6, "0")}`}
+        tabIndex={0}
+        data-keyboard-nav-item
+        data-keyboard-activate
         onClick={
           saleSelected?.id === sale.id ? () => select(null) : () => select(sale)
         }
@@ -33,7 +40,7 @@ export default function SaleCard({ sale, select, saleSelected }) {
 
         <AnimatePresence>
           {saleSelected?.id === sale.id && (
-            <motion.div
+            <MotionDiv
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -77,10 +84,10 @@ export default function SaleCard({ sale, select, saleSelected }) {
                   Total: ${sale.total.toLocaleString("es-AR")}
                 </p>
               </div>
-            </motion.div>
+            </MotionDiv>
           )}
         </AnimatePresence>
-      </motion.div>
+      </MotionDiv>
     </div>
   );
 }

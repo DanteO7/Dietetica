@@ -18,6 +18,22 @@ export default function Products() {
   const products = data?.pages.flatMap((page) => page.items) ?? [];
 
   useEffect(() => {
+    if (!openDetail) return;
+
+    const handleKeyDown = (event) => {
+      if (
+        event.key === "Escape" &&
+        !document.querySelector("[data-modal-dialog]")
+      ) {
+        setOpenDetail(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [openDetail]);
+
+  useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
 
@@ -50,12 +66,17 @@ export default function Products() {
     let timeout = null;
 
     const handleKeyDown = (e) => {
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+      if (
+        document.querySelector("[data-modal-dialog]") ||
+        e.defaultPrevented ||
+        e.target.closest?.(
+          "input, textarea, select, [contenteditable='true'], button, a, [data-keyboard-nav-item]",
+        )
+      )
         return;
 
-      clearTimeout(timeout);
-
       if (e.key === "Enter") {
+        clearTimeout(timeout);
         if (buffer.length > 0) {
           handleScan(buffer);
           buffer = "";
@@ -63,6 +84,9 @@ export default function Products() {
         return;
       }
 
+      if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      clearTimeout(timeout);
       buffer += e.key;
 
       timeout = setTimeout(() => {
@@ -84,16 +108,18 @@ export default function Products() {
             disabledEscaner={() => setScannerEnabled(false)}
             enableScanner={() => setScannerEnabled(true)}
           />
-          {products.map((p) => (
-            <ProductItem
-              key={p.id}
-              product={p}
-              openDetail={setOpenDetail}
-              productSelected={setProductSelected}
-              disabledEscaner={() => setScannerEnabled(false)}
-              enableScanner={() => setScannerEnabled(true)}
-            />
-          ))}
+          <div>
+            {products.map((p) => (
+              <ProductItem
+                key={p.id}
+                product={p}
+                openDetail={setOpenDetail}
+                productSelected={setProductSelected}
+                disabledEscaner={() => setScannerEnabled(false)}
+                enableScanner={() => setScannerEnabled(true)}
+              />
+            ))}
+          </div>
           <div ref={sentinelRef} className="h-4" />
 
           {isFetchingNextPage && (

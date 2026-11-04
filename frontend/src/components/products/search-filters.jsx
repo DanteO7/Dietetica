@@ -37,11 +37,14 @@ export default function SearchFilters({ disabledEscaner, enableScanner }) {
         />
 
         {inputValue && (
-          <X
-            size={18}
+          <button
+            type="button"
+            aria-label="Limpiar búsqueda"
             onClick={() => setInputValue("")}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-black transition-all"
-          />
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
         )}
       </div>
 

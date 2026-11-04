@@ -19,7 +19,9 @@ export default function PaymentMethods() {
   return (
     <MainLayout>
       <h2 className="font-semibold text-3xl">Métodos de pago</h2>
-      <div className="grid grid-cols-4 gap-10">
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
+      >
         {isLoading && (
           <div className="flex justify-center pt-20">
             <Ring
@@ -34,12 +36,14 @@ export default function PaymentMethods() {
         {methods?.map((m) => (
           <MethodCard key={m.id} method={m} />
         ))}
-        <div
+        <button
+          type="button"
+          aria-label="Crear método de pago"
           onClick={() => setOpenCreateModal(true)}
-          className="border flex justify-center items-center rounded-2xl p-7 text-2xl w-55 h-55 text-center shadow-xl hover:bg-[#e1e1e9] transition-all duration-200 cursor-pointer"
+          className="border flex justify-center items-center rounded-2xl p-7 text-2xl w-55 h-55 text-center shadow-xl hover:bg-[#e1e1e9] transition-all duration-200 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
           <Plus className="text-gray-700" strokeWidth={0.5} size={150} />
-        </div>
+        </button>
       </div>
       {openCreateModal && (
         <CreateMethodForm close={() => setOpenCreateModal(false)} />
